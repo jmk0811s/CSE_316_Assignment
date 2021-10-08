@@ -3,7 +3,7 @@ let currentNoteID = 0;
 let initflag = 0;
 let lastUpID = 0;
 let sortFlag = 0;
-//test
+
 let noteArray = [
     {
         "noteText": "CSE 316 Assignment 1 - Minki Jeon",
