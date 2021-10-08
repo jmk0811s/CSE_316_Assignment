@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="app.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+    <title>Notes <YOUR NAME HERE> </title>
+  </head>
+  <body style="margin: 0;">
+
+    <div class="main">
+        <div class="sidebar">
+
+            <div class="menu">
+                <button class="profile_pic" onclick="document.getElementById('profile').style.display='flex'"></button>
+                <text style="font-size: 1.2em; font-weight: 400; position: relative; left: 20px; top: -10px;">My Notes</text>
+                <span id = "del" class="material-icons" style="font-size: 35px; float: right; position: relative; left: -5px; top: 11px;">delete</span>
+            </div>
+
+            <div class="searchbox">
+                <span class="material-icons" style="font-size: 35px; position: relative; left: 3px; top: 3px;">search</span> <!--onclick="document.getElementById('notePreview').style.display='none'"-->
+                <input class="search" type="text" placeholder="Search all notes" style="outline: none; position: relative; left: 5px;"></input>
+
+            </div>
+
+            <div id="noteContainer" class="noteContainer">
+            </div>
+        </div>
+
+        <div id="notePreview" class="notePreview">
+            <div class="top">
+                <div style="margin-left: auto; margin-right: 0;">
+                    <span id="back" class="material-icons" style="font-size: 35px; position: fixed; left: 5px; top: 11px;">arrow_back</span>
+                    <span id="add" class="material-icons" style="font-size: 35px; float: right; position: relative; left: -5px; top: 11px;">note_add</span>
+                </div>
+            </div>
+            <textarea id="noteBody" class="noteBody" type="text" placeholder="New Note" onchange="saveNote()"></textarea>
+        </div>
+    </div>
+
+
+    <div id="profile" class="profile">
+        <form class="profile-content" action="" method="POST">
+            <div class="container" onclick="">
+                <div class="wrapper0">
+                    <h1 style="font-size: 1.5em; margin-left: 30px; margin-top: 20px; margin-bottom: 5px; float: left; position: relative; top: 7px;">Edit Profile</h1>
+                    <span id="close" class="material-icons" style="font-size: 35px; position: relative; left: 150px; top: 22px;" onclick="document.getElementById('profile').style.display='none'">close</span>
+                </div>
+                <div class="wrapper1">
+                    <button class="profile_pic" style="float: left; left: -10px; position: relative; margin-right: 25px;" onclick="document.getElementById('profile').style.display='none'"></button>
+                    <button class="change-image" style="float: left;" onclick="document.getElementById('profile').style.display='none'">Choose New Image</button>
+                    <button class="remove-image" onclick="document.getElementById('profile').style.display='none'">Remove Image</button>
+                </div>
+                <div class="wrapper2">
+                    <b>Name</b>
+                    <br>
+                    <input class="profile-input" type="text" placeholder="Minki Jeon" name="name">
+                    <br>
+                    <b>E-mail</b>
+                    <br>
+                    <input class="profile-input" type="text" placeholder="minki.jeon@stonybrook.edu" name="email">
+                    <br>
+                    <b>Location</b>
+                    <br>
+                    <input class="profile-input" type="text" placeholder="Incheon Songdo" name="location">
+                    <br>
+                    <br>
+                </div>
+                <div class="wrapper3">
+                    <button type="submit" style="float: left;" class="save">Save</button>
+                    <button type="button" style="float: right;" onclick="document.getElementById('profile').style.display='none'" class="logout">Logout</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <script src="main.js"></script>
+  </body>
+</html>
