@@ -1,45 +1,11 @@
 import React, {useState} from "react"
 
-
-function Notes() {
-    const [notes, setNotes] = useState([]);
-    const [text, setText] = useState('');
-
-    const handleChange = (e) => {
-        setText(e.target.value);
-
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const newNote = {
-            text: text,
-            id: Date.now()
-        };
-
-        setNotes(notes.concat(newNote));
-        setText('');
-    }
-
+function Notes({id, text, date}) {
     return (
-        <div>
-            <div>
-                <RenderNotes notes={notes}/>
-                <form id="add-note-form" onSubmit={handleSubmit}>
-                </form>
-            </div>
+        <div className="note" tabIndex="0" id={id}>
+            <span className="noteText">{text}</span>
+            <small className="date">{date}</small>
         </div>
-    );
-}
-
-function RenderNotes(props) {
-    return (
-        <ul>
-            {props.notes.map(note => (
-                <li key={note.id}>{note.text}</li>
-            ))}
-        </ul>
     );
 }
 

@@ -1,11 +1,17 @@
-import React from "react"
+import React, {useState} from "react"
+import {currentNote} from "./../App.js"
 import NoteAdd from '@material-ui/icons/NoteAdd'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 
-const NoteAddIcon = () => {
+
+const NoteAddIcon = ({handleAddNote}) => {
+    const addNote = () => {
+        handleAddNote("New Note");
+    }
+
     return (
         <div>
-            <NoteAdd className="note-add-icon" form="add-note-form" type="submit"></NoteAdd>
+            <NoteAdd className="note-add-icon" onClick={addNote}></NoteAdd>
         </div>
     );
 }
@@ -18,17 +24,28 @@ const ArrowBackIcon = () => {
     );
 }
 
-function TextArea() {
+function TextArea({notes, handleAddNote}) {
+    const [noteText, setNoteText] = useState('');
+
+    const handleChange = () => {
+
+    }
+
     return (
         <div id="note-preview" className="note-preview">
             <div className="top-bar">
                 <div>
                     <ArrowBackIcon />
-                    <NoteAddIcon />
+                    <NoteAddIcon handleAddNote={handleAddNote}/>
                 </div>
             </div>
-            <textarea id="note-body" className="note-body" type="text" placeholder="New Note"
-                      onChange="saveNote()"></textarea>
+            <textarea
+                id="note-body"
+                className="note-body"
+                type="text"
+                placeholder="Text Area"
+                onChange={handleChange}
+            ></textarea>
         </div>
     );
 }
