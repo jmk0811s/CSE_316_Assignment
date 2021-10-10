@@ -24,11 +24,12 @@ const ArrowBackIcon = () => {
     );
 }
 
-function TextArea({notes, handleAddNote}) {
+function TextArea({notes, handleAddNote, handleChangeNote}) {
     const [noteText, setNoteText] = useState('');
 
-    const handleChange = () => {
-
+    const handleChange = (e) => {
+        setNoteText(e.target.value);
+        handleChangeNote(e.target.value);
     }
 
     return (
@@ -44,6 +45,7 @@ function TextArea({notes, handleAddNote}) {
                 className="note-body"
                 type="text"
                 placeholder="Text Area"
+                value={noteText}
                 onChange={handleChange}
             ></textarea>
         </div>

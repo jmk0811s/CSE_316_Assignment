@@ -13,8 +13,8 @@ function App() {
         const temp = document.activeElement;
         if (temp.className == "note") {
             currentNote = temp;
-            console.log(currentNote);
         }
+        console.log(currentNote);
     }
 
     const [notes, setNotes] = useState([
@@ -42,12 +42,32 @@ function App() {
     }
 
     const editNoteText = (text) => {
+        if (currentNote.className !== "note") return;
+
+        const tempID = currentNote.id
+        let newNotes = [];
+
+        for (let i = 0; i < notes.length; i++) {
+            if (notes[i].id == tempID) {
+                const date = new Date();
+                const newNote = {
+                    id: tempID,
+                    text: text,
+                    date: date.toLocaleDateString()
+                }
+                newNotes.push(newNote);
+            }
+            else {
+                newNotes.push(notes[i]);
+            }
+        }
+        setNotes(newNotes);
     }
 
     const deleteNote = (id) => {
         const newNotes = notes.filter((note) => note.id !== id);
         setNotes(newNotes);
-        currentNote = null;
+        currentNote = document.activeElement;
     }
 
     return (

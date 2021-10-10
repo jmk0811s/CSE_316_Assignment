@@ -42,7 +42,7 @@ function SideBar({notes, handleAddNote, handleDeleteNote}) {
                 </div>
 
                 <div id="note-container" className="note-container">
-                    <NoteList notes={notes} handleAddNote={handleAddNote}/>
+                    <NoteList notes={notes} text={currentNote.text} handleAddNote={handleAddNote}/>
                 </div>
             </div>
         </div>
