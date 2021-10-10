@@ -20,13 +20,18 @@ function App() {
     const [notes, setNotes] = useState([
         {
             id: nanoid(),
-            text: "Example note 1",
-            date: "date test 1"
+            text: "CSE 101 with a long line of text asdasd",
+            date: "2021. 08. 18."
         },
         {
             id: nanoid(),
-            text: "Example note 2",
-            date: "date test 2"
+            text: "CSE 316",
+            date: "2021. 08. 18."
+        },
+        {
+            id: nanoid(),
+            text: "Another note",
+            date: "2021. 08. 18."
         }
     ]);
 
@@ -37,8 +42,7 @@ function App() {
             text: text,
             date: date.toLocaleDateString()
         }
-
-        setNotes(notes.concat(newNote));
+        setNotes(sortNotes(notes.concat(newNote)));
     }
 
     const editNoteText = (text) => {
@@ -61,6 +65,8 @@ function App() {
                 newNotes.push(notes[i]);
             }
         }
+
+        sortNotes(newNotes);
         setNotes(newNotes);
     }
 
@@ -68,6 +74,10 @@ function App() {
         const newNotes = notes.filter((note) => note.id !== id);
         setNotes(newNotes);
         currentNote = document.activeElement;
+    }
+
+    const sortNotes = (notes) => {
+
     }
 
     return (
