@@ -1,5 +1,4 @@
 import React, {useState} from "react"
-import {currentNote} from "./../App.js"
 import NoteAdd from '@material-ui/icons/NoteAdd'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 
@@ -24,11 +23,10 @@ const ArrowBackIcon = () => {
     );
 }
 
-function TextArea({notes, handleAddNote, handleChangeNote}) {
-    const [noteText, setNoteText] = useState('');
+function TextArea({handleAddNote, handleChangeNote, activeNote}) {
+    const [currNote, setCurrNote] = useState('');
 
     const handleChange = (e) => {
-        setNoteText(e.target.value);
         handleChangeNote(e.target.value);
     }
 
@@ -45,7 +43,7 @@ function TextArea({notes, handleAddNote, handleChangeNote}) {
                 className="note-body"
                 type="text"
                 placeholder="Text Area"
-                value={noteText}
+                value={activeNote === undefined ? "" : activeNote.text}
                 onChange={handleChange}
             ></textarea>
         </div>

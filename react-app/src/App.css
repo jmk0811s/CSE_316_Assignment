@@ -155,7 +155,10 @@ form {
   width: 240px;
   height: 60px;
 }
-.note:focus {
+.note-active {
+  border-bottom: 2px dotted darkgray;
+  width: 240px;
+  height: 60px;
   background-color: var(--selected-color);
 }
 

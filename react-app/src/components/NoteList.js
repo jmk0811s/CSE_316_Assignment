@@ -1,7 +1,7 @@
 import React from "react";
 import Notes from "./Notes"
 
-function NoteList({notes, handleAddNote}) {
+function NoteList({notes, handleAddNote, activeNoteID, setActiveNote}) {
     return (
         <div className="note-list">
             {notes.map(note => (
@@ -10,6 +10,8 @@ function NoteList({notes, handleAddNote}) {
                     text={note.text}
                     date={note.date}
                     handleAddNote={handleAddNote}
+                    activeNoteID={activeNoteID}
+                    setActiveNote={setActiveNote}
                 ></Notes>
             ))}
         </div>

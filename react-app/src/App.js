@@ -5,17 +5,10 @@ import TextArea from "./components/TextArea"
 import {useState} from "react";
 import {nanoid} from "nanoid";
 
-let currentNote = document.activeElement;
-
 function App() {
 
-    const setActiveElement = () => {
-        const temp = document.activeElement;
-        if (temp.className == "note") {
-            currentNote = temp;
-        }
-        console.log(currentNote);
-    }
+    const [currNote, setCurrNote] = useState(document.activeElement);
+    const [activeNote, setActiveNote] = useState(false);
 
     const [notes, setNotes] = useState([
         {
@@ -37,65 +30,62 @@ function App() {
 
     const addNote = (text) => {
         const date = new Date();
+        let newID = nanoid();
         const newNote = {
-            id: nanoid(),
+            id: newID,
             text: text,
             date: date.toLocaleDateString()
         }
-        setNotes(sortNotes(notes.concat(newNote)));
+
+        notes.unshift(newNote);
+        setNotes(notes);
+        setActiveNote(newID);
     }
 
-    const editNoteText = (text) => {
-        if (currentNote.className !== "note") return;
-
-        const tempID = currentNote.id
+    const editNoteText = (newText) => {
         let newNotes = [];
-
-        for (let i = 0; i < notes.length; i++) {
-            if (notes[i].id == tempID) {
-                const date = new Date();
-                const newNote = {
-                    id: tempID,
-                    text: text,
-                    date: date.toLocaleDateString()
-                }
-                newNotes.push(newNote);
-            }
-            else {
-                newNotes.push(notes[i]);
-            }
+        const date = new Date();
+        let newNote = {
+            id: activeNote,
+            text: newText,
+            date: date.toLocaleDateString()
         }
 
-        sortNotes(newNotes);
+        newNotes = notes.filter(note => note.id !== activeNote);
+        newNotes.unshift(newNote);
+
         setNotes(newNotes);
     }
 
     const deleteNote = (id) => {
-        const newNotes = notes.filter((note) => note.id !== id);
+        const newNotes = notes.filter(note => note.id !== id);
         setNotes(newNotes);
-        currentNote = document.activeElement;
+        setActiveNote(newNotes[0].id);
     }
 
-    const sortNotes = (notes) => {
-
+    const getActiveNote = () => {
+        return notes.find(note => note.id === activeNote);
     }
 
     return (
-        <div className="App" onClick={setActiveElement}>
+        <div className="App">
             <SideBar
                 notes={notes}
                 handleAddNote={addNote}
                 handleChangeNote={editNoteText}
                 handleDeleteNote={deleteNote}
+                activeNoteID={activeNote}
+                setActiveNote={setActiveNote}
             />
             <TextArea
                 notes={notes}
                 handleAddNote={addNote}
                 handleChangeNote={editNoteText}
+                activeNote={getActiveNote()}
+                setActiveNote={setActiveNote}
             />
         </div>
     );
 }
 
 export default App;
-export {currentNote};

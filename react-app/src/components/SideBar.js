@@ -1,5 +1,4 @@
 import React, {useState} from "react"
-import {currentNote} from "./../App.js"
 import Search from '@material-ui/icons/Search'
 import Delete from "@material-ui/icons/Delete"
 import NoteList from "./NoteList"
@@ -13,11 +12,9 @@ const SearchIcon = () => {
     );
 }
 
-const DeleteIcon = ({notes, handleDeleteNote}) => {
+const DeleteIcon = ({notes, handleDeleteNote, activeNoteID}) => {
     const deleteNote = () => {
-        if (currentNote == null) return;
-        const id = currentNote.id;
-        handleDeleteNote(id);
+        handleDeleteNote(activeNoteID);
     }
 
     return (
@@ -27,14 +24,14 @@ const DeleteIcon = ({notes, handleDeleteNote}) => {
     );
 }
 
-function SideBar({notes, handleAddNote, handleDeleteNote}) {
+function SideBar({notes, handleAddNote, handleDeleteNote, activeNoteID, setActiveNote}) {
     return (
         <div className="AppBody">
             <div className="sidebar">
                 <div className="menu">
                     <button className="profile_pic"></button>
                     <text className="title">My Notes</text>
-                    <DeleteIcon notes={notes} handleDeleteNote={handleDeleteNote}/>
+                    <DeleteIcon notes={notes} handleDeleteNote={handleDeleteNote} activeNoteID={activeNoteID}/>
                 </div>
                 <div className="searchbox">
                     <SearchIcon />
@@ -42,7 +39,12 @@ function SideBar({notes, handleAddNote, handleDeleteNote}) {
                 </div>
 
                 <div id="note-container" className="note-container">
-                    <NoteList notes={notes} text={currentNote.text} handleAddNote={handleAddNote}/>
+                    <NoteList
+                        notes={notes}
+                        handleAddNote={handleAddNote}
+                        activeNoteID={activeNoteID}
+                        setActiveNote={setActiveNote}
+                    />
                 </div>
             </div>
         </div>
