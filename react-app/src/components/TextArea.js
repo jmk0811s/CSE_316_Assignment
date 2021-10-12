@@ -1,6 +1,7 @@
 import React, {useState} from "react"
 import NoteAdd from '@material-ui/icons/NoteAdd'
 import ArrowBack from '@material-ui/icons/ArrowBack'
+import Markdown from "./Markdown";
 
 
 const NoteAddIcon = ({handleAddNote}) => {
@@ -38,14 +39,17 @@ function TextArea({handleAddNote, handleChangeNote, activeNote}) {
                     <NoteAddIcon handleAddNote={handleAddNote}/>
                 </div>
             </div>
-            <textarea
-                id="note-body"
-                className="note-body"
-                type="text"
-                placeholder="Text Area"
-                value={activeNote === undefined ? "" : activeNote.text}
-                onChange={handleChange}
-            ></textarea>
+            <div className="preview-wrapper">
+                <textarea
+                    id="note-body"
+                    className="note-body"
+                    type="text"
+                    placeholder="Type to add a new note."
+                    value={activeNote === undefined ? "" : activeNote.text}
+                    onChange={handleChange}
+                ></textarea>
+                <Markdown activeNote={activeNote}/>
+            </div>
         </div>
     );
 }

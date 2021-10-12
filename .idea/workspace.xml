@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c047c264-187e-427f-b3e9-3c6f8f9f059e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/react-app/src/components/Markdown.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-app/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-app/src/components/NoteList.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/components/NoteList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-app/src/components/Notes.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/components/Notes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-app/src/components/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/components/SideBar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-app/src/components/TextArea.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/components/TextArea.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,7 +63,7 @@
       <updated>1633849766668</updated>
       <workItem from="1633849771054" duration="1776000" />
       <workItem from="1633868325117" duration="10494000" />
-      <workItem from="1633880743075" duration="13641000" />
+      <workItem from="1633880743075" duration="18742000" />
     </task>
     <servers />
   </component>

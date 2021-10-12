@@ -2,7 +2,7 @@
 import './App.css'
 import SideBar from "./components/SideBar"
 import TextArea from "./components/TextArea"
-import {useState} from "react";
+import React, {useState} from "react";
 import {nanoid} from "nanoid";
 
 function App() {
@@ -78,11 +78,9 @@ function App() {
                 setActiveNote={setActiveNote}
             />
             <TextArea
-                notes={notes}
                 handleAddNote={addNote}
                 handleChangeNote={editNoteText}
                 activeNote={getActiveNote()}
-                setActiveNote={setActiveNote}
             />
         </div>
     );
