@@ -2,7 +2,7 @@
 import './App.css'
 import SideBar from "./components/SideBar"
 import TextArea from "./components/TextArea"
-import React, {useState} from "react";
+import React, {useState, useEffect}  from "react";
 import {nanoid} from "nanoid";
 import Profile from "./components/Profile"
 import useWindowDimensions from "./components/WindowDimension"
@@ -12,6 +12,12 @@ function App() {
     const [showProfile, setShowProfile] = useState(false);
     const {height, width} = useWindowDimensions();
     const [showSideBar, setShowSideBar] = useState(false);
+    const [profile, setProfile] = useState({
+        name: "",
+        email: "",
+        location: ""
+    });
+    const [profileUpdated, setProfileUpdated] = useState(false);
 
     const [notes, setNotes] = useState([
         {
@@ -31,6 +37,10 @@ function App() {
         }
     ]);
 
+    /*
+     * Note editing
+     */
+
     const addNote = (text) => {
         const date = new Date();
         let newID = nanoid();
@@ -40,8 +50,19 @@ function App() {
             date: date.toLocaleDateString()
         }
 
-        notes.unshift(newNote);
-        setNotes(notes);
+        let newNotes = [];
+
+        for (let i = 0; i < notes.length; i++) {
+            let buf = {
+                id: notes[i].id,
+                text: notes[i].text,
+                date: notes[i].date,
+            }
+            newNotes[i] = buf;
+        }
+
+        newNotes.unshift(newNote);
+        setNotes(newNotes);
         setActiveNote(newID);
     }
 
@@ -70,6 +91,44 @@ function App() {
         return notes.find(note => note.id === activeNote);
     }
 
+    /*
+     * Local storage saving
+     */
+
+    useEffect(() => {
+        const savedNotes = JSON.parse(localStorage.getItem("note-data"));
+        if (savedNotes) {
+            console.log("notes are loaded successfully");
+            setNotes(savedNotes);
+        }
+        else {
+            console.log("note loading failed");
+        }
+    }, [])
+
+    useEffect(() => {
+        const savedProfile = JSON.parse(localStorage.getItem("profile-data"));
+        if (savedProfile) {
+            console.log("profile is loaded successfully");
+            setProfile(savedProfile);
+        }
+        else {
+            console.log("profile loading failed");
+        }
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem("note-data", JSON.stringify(notes));
+    }, [notes])
+
+    useEffect(() => {
+        localStorage.setItem("profile-data", JSON.stringify(profile));
+    }, [profileUpdated])
+
+    /*
+     * Return
+     */
+
     if (width <= 500) {
         if (showSideBar) {
             return (
@@ -84,7 +143,15 @@ function App() {
                         setShowProfile={setShowProfile}
                         setShowSideBar={setShowSideBar}
                     />
-                    {showProfile ? <Profile setShowProfile={setShowProfile}/> : null}
+                    {showProfile ?
+                        <Profile
+                            setShowProfile={setShowProfile}
+                            profile={profile}
+                            setProfile={setProfile}
+                            profileUpdated={profileUpdated}
+                            setProfileUpdated={setProfileUpdated}
+                        /> : null
+                    }
                 </div>
             );
         }
@@ -97,7 +164,15 @@ function App() {
                         activeNote={getActiveNote()}
                         setShowSideBar={setShowSideBar}
                     />
-                    {showProfile ? <Profile setShowProfile={setShowProfile}/> : null}
+                    {showProfile ?
+                        <Profile
+                            setShowProfile={setShowProfile}
+                            profile={profile}
+                            setProfile={setProfile}
+                            profileUpdated={profileUpdated}
+                            setProfileUpdated={setProfileUpdated}
+                        /> : null
+                    }
                 </div>
             );
         }
@@ -121,7 +196,15 @@ function App() {
                     activeNote={getActiveNote()}
                     setShowSideBar={setShowSideBar}
                 />
-                {showProfile ? <Profile setShowProfile={setShowProfile}/> : null}
+                {showProfile ?
+                    <Profile
+                        setShowProfile={setShowProfile}
+                        profile={profile}
+                        setProfile={setProfile}
+                        profileUpdated={profileUpdated}
+                        setProfileUpdated={setProfileUpdated}
+                    /> : null
+                }
             </div>
         );
     }
