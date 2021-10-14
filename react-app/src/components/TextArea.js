@@ -1,7 +1,8 @@
 import React, {useState} from "react"
 import NoteAdd from '@material-ui/icons/NoteAdd'
 import ArrowBack from '@material-ui/icons/ArrowBack'
-import Markdown from "./Markdown";
+import Markdown from "./Markdown"
+import useWindowDimensions from "./WindowDimension"
 
 
 const NoteAddIcon = ({handleAddNote}) => {
@@ -10,22 +11,18 @@ const NoteAddIcon = ({handleAddNote}) => {
     }
 
     return (
-        <div>
-            <NoteAdd className="note-add-icon" onClick={addNote}></NoteAdd>
-        </div>
+        <NoteAdd className="note-add-icon" onClick={addNote}></NoteAdd>
     );
 }
 
-const ArrowBackIcon = () => {
+const ArrowBackIcon = ({setShowSideBar}) => {
     return (
-        <div>
-            <ArrowBack className="arrow-back-icon"></ArrowBack>
-        </div>
+        <ArrowBack className="arrow-back-icon" onClick={() => setShowSideBar(true)}></ArrowBack>
     );
 }
 
-function TextArea({handleAddNote, handleChangeNote, activeNote}) {
-    const [currNote, setCurrNote] = useState('');
+function TextArea({handleAddNote, handleChangeNote, activeNote, setShowSideBar}) {
+    const {height, width} = useWindowDimensions()
 
     const handleChange = (e) => {
         handleChangeNote(e.target.value);
@@ -34,10 +31,8 @@ function TextArea({handleAddNote, handleChangeNote, activeNote}) {
     return (
         <div id="note-preview" className="note-preview">
             <div className="top-bar">
-                <div>
-                    <ArrowBackIcon />
-                    <NoteAddIcon handleAddNote={handleAddNote}/>
-                </div>
+                <ArrowBackIcon setShowSideBar={setShowSideBar}/>
+                <NoteAddIcon handleAddNote={handleAddNote}/>
             </div>
             <div className="preview-wrapper">
                 <textarea

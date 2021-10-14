@@ -1,8 +1,7 @@
-import React, {useState} from "react"
+import React from "react"
 import Search from '@material-ui/icons/Search'
 import Delete from "@material-ui/icons/Delete"
 import NoteList from "./NoteList"
-import Profile from "./Profile"
 
 const SearchIcon = () => {
     return (
@@ -12,7 +11,7 @@ const SearchIcon = () => {
     );
 }
 
-const DeleteIcon = ({notes, handleDeleteNote, activeNoteID}) => {
+const DeleteIcon = ({handleDeleteNote, activeNoteID}) => {
     const deleteNote = () => {
         handleDeleteNote(activeNoteID);
     }
@@ -24,17 +23,17 @@ const DeleteIcon = ({notes, handleDeleteNote, activeNoteID}) => {
     );
 }
 
-function SideBar({notes, handleAddNote, handleDeleteNote, activeNoteID, setActiveNote}) {
+function SideBar({notes, handleAddNote, handleDeleteNote, activeNoteID, setActiveNote, setShowProfile, setShowSideBar}) {
     return (
         <div className="AppBody">
             <div className="sidebar">
                 <div className="menu">
-                    <button className="profile_pic"></button>
+                    <button className="profile_pic" onClick={() => setShowProfile(true)}></button>
                     <text className="title">My Notes</text>
-                    <DeleteIcon notes={notes} handleDeleteNote={handleDeleteNote} activeNoteID={activeNoteID}/>
+                    <DeleteIcon handleDeleteNote={handleDeleteNote} activeNoteID={activeNoteID}/>
                 </div>
                 <div className="searchbox">
-                    <SearchIcon />
+                    <SearchIcon/>
                     <input className="search-input" type="text" placeholder="Search all notes"></input>
                 </div>
 
@@ -44,6 +43,7 @@ function SideBar({notes, handleAddNote, handleDeleteNote, activeNoteID, setActiv
                         handleAddNote={handleAddNote}
                         activeNoteID={activeNoteID}
                         setActiveNote={setActiveNote}
+                        setShowSideBar={setShowSideBar}
                     />
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import Notes from "./Notes"
 
-function NoteList({notes, handleAddNote, activeNoteID, setActiveNote}) {
+function NoteList({notes, handleAddNote, activeNoteID, setActiveNote, setShowSideBar}) {
     return (
         <div className="note-list">
             {notes.map(note => (
@@ -12,6 +12,7 @@ function NoteList({notes, handleAddNote, activeNoteID, setActiveNote}) {
                     handleAddNote={handleAddNote}
                     activeNoteID={activeNoteID}
                     setActiveNote={setActiveNote}
+                    setShowSideBar={setShowSideBar}
                 ></Notes>
             ))}
         </div>

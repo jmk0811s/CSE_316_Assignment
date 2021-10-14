@@ -4,21 +4,24 @@ import SideBar from "./components/SideBar"
 import TextArea from "./components/TextArea"
 import React, {useState} from "react";
 import {nanoid} from "nanoid";
+import Profile from "./components/Profile"
+import useWindowDimensions from "./components/WindowDimension"
 
 function App() {
-
-    const [currNote, setCurrNote] = useState(document.activeElement);
-    const [activeNote, setActiveNote] = useState(false);
+    const [activeNote, setActiveNote] = useState('');
+    const [showProfile, setShowProfile] = useState(false);
+    const {height, width} = useWindowDimensions();
+    const [showSideBar, setShowSideBar] = useState(false);
 
     const [notes, setNotes] = useState([
         {
             id: nanoid(),
-            text: "CSE 101 with a long line of text asdasd",
+            text: "CSE 101 with a long line of text",
             date: "2021. 08. 18."
         },
         {
             id: nanoid(),
-            text: "CSE 316",
+            text: "# CSE 316\nThis is **placeholder text** here",
             date: "2021. 08. 18."
         },
         {
@@ -67,23 +70,61 @@ function App() {
         return notes.find(note => note.id === activeNote);
     }
 
-    return (
-        <div className="App">
-            <SideBar
-                notes={notes}
-                handleAddNote={addNote}
-                handleChangeNote={editNoteText}
-                handleDeleteNote={deleteNote}
-                activeNoteID={activeNote}
-                setActiveNote={setActiveNote}
-            />
-            <TextArea
-                handleAddNote={addNote}
-                handleChangeNote={editNoteText}
-                activeNote={getActiveNote()}
-            />
-        </div>
-    );
+    if (width <= 500) {
+        if (showSideBar) {
+            return (
+                <div className="App">
+                    <SideBar
+                        notes={notes}
+                        handleAddNote={addNote}
+                        handleChangeNote={editNoteText}
+                        handleDeleteNote={deleteNote}
+                        activeNoteID={activeNote}
+                        setActiveNote={setActiveNote}
+                        setShowProfile={setShowProfile}
+                        setShowSideBar={setShowSideBar}
+                    />
+                    {showProfile ? <Profile setShowProfile={setShowProfile}/> : null}
+                </div>
+            );
+        }
+        else {
+            return (
+                <div className="App">
+                    <TextArea
+                        handleAddNote={addNote}
+                        handleChangeNote={editNoteText}
+                        activeNote={getActiveNote()}
+                        setShowSideBar={setShowSideBar}
+                    />
+                    {showProfile ? <Profile setShowProfile={setShowProfile}/> : null}
+                </div>
+            );
+        }
+    }
+    else {
+        return (
+            <div className="App">
+                <SideBar
+                    notes={notes}
+                    handleAddNote={addNote}
+                    handleChangeNote={editNoteText}
+                    handleDeleteNote={deleteNote}
+                    activeNoteID={activeNote}
+                    setActiveNote={setActiveNote}
+                    setShowProfile={setShowProfile}
+                    setShowSideBar={setShowSideBar}
+                />
+                <TextArea
+                    handleAddNote={addNote}
+                    handleChangeNote={editNoteText}
+                    activeNote={getActiveNote()}
+                    setShowSideBar={setShowSideBar}
+                />
+                {showProfile ? <Profile setShowProfile={setShowProfile}/> : null}
+            </div>
+        );
+    }
 }
 
 export default App;
