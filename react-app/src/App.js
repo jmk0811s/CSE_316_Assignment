@@ -111,6 +111,7 @@ function App() {
         if (savedProfile) {
             console.log("profile is loaded successfully");
             setProfile(savedProfile);
+            setProfileUpdated(~profileUpdated);
         }
         else {
             console.log("profile loading failed");
