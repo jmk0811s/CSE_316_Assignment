@@ -5,7 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c047c264-187e-427f-b3e9-3c6f8f9f059e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/react-app/src/api/client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-app/src/components/NoteList.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/components/NoteList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-app/src/components/Notes.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/components/Notes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +22,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -47,7 +54,14 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/react-app/src" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -63,6 +77,13 @@
       <workItem from="1634027176709" duration="10544000" />
       <workItem from="1634220574348" duration="8820000" />
       <workItem from="1634886950845" duration="479000" />
+      <workItem from="1635174816747" duration="3078000" />
+      <workItem from="1635224072381" duration="281000" />
+      <workItem from="1635234270374" duration="2863000" />
+      <workItem from="1635240765192" duration="2591000" />
+      <workItem from="1635258319043" duration="4796000" />
+      <workItem from="1635265910708" duration="444000" />
+      <workItem from="1635266741610" duration="16479000" />
     </task>
     <servers />
   </component>

@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React from "react"
 
 function Notes({id, text, date, activeNoteID, setActiveNote, setShowSideBar}) {
     return (

@@ -2,99 +2,114 @@
 import './App.css'
 import SideBar from "./components/SideBar"
 import TextArea from "./components/TextArea"
-import React, {useState, useEffect}  from "react";
-import {nanoid} from "nanoid";
+import React, {useState, useEffect}  from "react"
 import Profile from "./components/Profile"
 import useWindowDimensions from "./components/WindowDimension"
+import {
+    getUsersAPIMethod,
+    createNoteAPIMethod,
+    getNotesAPIMethod,
+    getNoteByIdAPIMethod,
+    updateNoteAPIMethod,
+    deleteNoteByIdAPIMethod
+} from "./api/client"
 
 function App() {
     const [activeNote, setActiveNote] = useState('');
     const [showProfile, setShowProfile] = useState(false);
     const {height, width} = useWindowDimensions();
     const [showSideBar, setShowSideBar] = useState(false);
-    const [profile, setProfile] = useState({
-        name: "",
-        email: "",
-        location: ""
-    });
     const [profileUpdated, setProfileUpdated] = useState(false);
+    const [serverCall, setServerCall] = useState(false);
 
-    const [notes, setNotes] = useState([
-        {
-            id: nanoid(),
-            text: "CSE 101 with a long line of text",
-            date: "2021. 08. 18."
-        },
-        {
-            id: nanoid(),
-            text: "# CSE 316\nThis is **placeholder text** here",
-            date: "2021. 08. 18."
-        },
-        {
-            id: nanoid(),
-            text: "Another note",
-            date: "2021. 08. 18."
-        }
-    ]);
+    const [profile, setProfile] = useState([]);
+
+    const [notes, setNotes] = useState([]);
+
+    //get notes from the database
+    useEffect(() => {
+        getNotesAPIMethod().then((notes) => {
+            console.log("Server Call\n");
+            setNotes(notes);
+            //console.dir(notes);
+        });
+    }, [serverCall]);
+
+    //get users from the database
+    useEffect(() => {
+        getUsersAPIMethod().then((users) => {
+            setProfile(users[0]);
+            console.dir(users);
+        });
+    }, []);
 
     /*
      * Note editing
      */
 
     const addNote = (text) => {
-        const date = new Date();
-        let newID = nanoid();
+        let date = (new Date(Date.now())).toLocaleString();
         const newNote = {
-            id: newID,
             text: text,
-            date: date.toLocaleDateString()
+            date: date
         }
 
-        let newNotes = [];
-
-        for (let i = 0; i < notes.length; i++) {
-            let buf = {
-                id: notes[i].id,
-                text: notes[i].text,
-                date: notes[i].date,
-            }
-            newNotes[i] = buf;
-        }
+        let newNotes = [...notes];
 
         newNotes.unshift(newNote);
         setNotes(newNotes);
-        setActiveNote(newID);
+
+        //server call
+        createNoteAPIMethod(newNote);
+        setServerCall(!serverCall);
     }
 
     const editNoteText = (newText) => {
         let newNotes = [];
-        const date = new Date();
+        const date = (new Date(Date.now())).toLocaleString();
         let newNote = {
-            id: activeNote,
             text: newText,
-            date: date.toLocaleDateString()
+            date: date
         }
 
-        newNotes = notes.filter(note => note.id !== activeNote);
+        newNotes = notes.filter(note => note._id !== activeNote);
         newNotes.unshift(newNote);
-
         setNotes(newNotes);
+
+        //updateNoteAPIMethod(newNote, activeNote);
+
+        //setServerCall(!serverCall);
     }
 
     const deleteNote = (id) => {
-        const newNotes = notes.filter(note => note.id !== id);
+        const newNotes = notes.filter(note => note._id !== id);
+
         setNotes(newNotes);
-        setActiveNote(newNotes[0].id);
+
+        if (newNotes.length > 0) {
+            //setActiveNote(newNotes[0]._id);
+        }
+        else {
+            setActiveNote('');
+            return;
+        }
+
+        //server call
+        if (notes.length != 0) {
+            const note = getNoteByIdAPIMethod(id);
+            deleteNoteByIdAPIMethod(id);
+        }
     }
 
     const getActiveNote = () => {
-        return notes.find(note => note.id === activeNote);
+        return notes.find(note => note._id === activeNote);
     }
 
     /*
      * Local storage saving
      */
 
+    /*
     useEffect(() => {
         const savedNotes = JSON.parse(localStorage.getItem("note-data"));
         if (savedNotes) {
@@ -125,6 +140,9 @@ function App() {
     useEffect(() => {
         localStorage.setItem("profile-data", JSON.stringify(profile));
     }, [profileUpdated])
+
+    */
+
 
     /*
      * Return
