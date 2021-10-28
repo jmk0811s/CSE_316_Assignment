@@ -11,7 +11,8 @@ import {
     getNotesAPIMethod,
     getNoteByIdAPIMethod,
     updateNoteAPIMethod,
-    deleteNoteByIdAPIMethod
+    deleteNoteByIdAPIMethod,
+    updateUserAPIMethod
 } from "./api/client"
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
     const [showSideBar, setShowSideBar] = useState(false);
     const [profileUpdated, setProfileUpdated] = useState(false);
     const [serverCall, setServerCall] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
 
     const [profile, setProfile] = useState([]);
 
@@ -30,7 +32,8 @@ function App() {
     useEffect(() => {
         getNotesAPIMethod().then((notes) => {
             console.log("Server Call\n");
-            setNotes(notes);
+            let sortedNotes = sortNotesByDate(notes);
+            setNotes(sortedNotes);
             //console.dir(notes);
         });
     }, [serverCall]);
@@ -38,7 +41,18 @@ function App() {
     //get users from the database
     useEffect(() => {
         getUsersAPIMethod().then((users) => {
-            setProfile(users[0]);
+            if (users.length == 0) {
+                setProfile(
+                    {
+                        name: '',
+                        email: '',
+                        location: ''
+                    }
+                );
+            }
+            else {
+                setProfile(users[0]);
+            }
             console.dir(users);
         });
     }, []);
@@ -58,6 +72,7 @@ function App() {
 
         newNotes.unshift(newNote);
         setNotes(newNotes);
+        setSearchQuery('');
 
         //server call
         createNoteAPIMethod(newNote);
@@ -67,27 +82,28 @@ function App() {
     const editNoteText = (newText) => {
         let newNotes = [];
         const date = (new Date(Date.now())).toLocaleString();
-        let newNote = {
-            text: newText,
-            date: date
-        }
+
+        let currNote = notes.filter(note => note._id === activeNote)[0];
+        currNote.text = newText;
+        currNote.date = date;
 
         newNotes = notes.filter(note => note._id !== activeNote);
-        newNotes.unshift(newNote);
+        newNotes.unshift(currNote);
         setNotes(newNotes);
 
-        //updateNoteAPIMethod(newNote, activeNote);
+        updateNoteAPIMethod(currNote);
 
         //setServerCall(!serverCall);
     }
 
     const deleteNote = (id) => {
-        const newNotes = notes.filter(note => note._id !== id);
+        if (activeNote == '') return;
 
+        const newNotes = notes.filter(note => note._id !== id);
         setNotes(newNotes);
 
         if (newNotes.length > 0) {
-            //setActiveNote(newNotes[0]._id);
+            setActiveNote(newNotes[0]._id);
         }
         else {
             setActiveNote('');
@@ -105,44 +121,14 @@ function App() {
         return notes.find(note => note._id === activeNote);
     }
 
-    /*
-     * Local storage saving
-     */
+    const sortNotesByDate = (notes) => {
 
-    /*
-    useEffect(() => {
-        const savedNotes = JSON.parse(localStorage.getItem("note-data"));
-        if (savedNotes) {
-            console.log("notes are loaded successfully");
-            setNotes(savedNotes);
-        }
-        else {
-            console.log("note loading failed");
-        }
-    }, [])
+        return notes;
+    }
 
-    useEffect(() => {
-        const savedProfile = JSON.parse(localStorage.getItem("profile-data"));
-        if (savedProfile) {
-            console.log("profile is loaded successfully");
-            setProfile(savedProfile);
-            setProfileUpdated(~profileUpdated);
-        }
-        else {
-            console.log("profile loading failed");
-        }
-    }, [])
-
-    useEffect(() => {
-        localStorage.setItem("note-data", JSON.stringify(notes));
-    }, [notes])
-
-    useEffect(() => {
-        localStorage.setItem("profile-data", JSON.stringify(profile));
-    }, [profileUpdated])
-
-    */
-
+    const updateProfile = () => {
+        setProfile();
+    }
 
     /*
      * Return
@@ -161,6 +147,8 @@ function App() {
                         setActiveNote={setActiveNote}
                         setShowProfile={setShowProfile}
                         setShowSideBar={setShowSideBar}
+                        searchQuery={searchQuery}
+                        setSearchQuery={setSearchQuery}
                     />
                     {showProfile ?
                         <Profile
@@ -208,6 +196,8 @@ function App() {
                     setActiveNote={setActiveNote}
                     setShowProfile={setShowProfile}
                     setShowSideBar={setShowSideBar}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
                 />
                 <TextArea
                     handleAddNote={addNote}

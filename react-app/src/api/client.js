@@ -28,8 +28,8 @@ export const createNoteAPIMethod = (note) => {
         .then(parseJSON);
 }
 
-export const updateNoteAPIMethod = (note, noteId) => {
-    return fetch(`/api/notes/${noteId}`, {
+export const updateNoteAPIMethod = (note) => {
+    return fetch(`/api/notes/${note._id}`, {
         ...defaultHeaders,
         method: 'PUT',
         body: JSON.stringify(note),
@@ -49,6 +49,14 @@ export const getUsersAPIMethod = () => {
         ...defaultHeaders,
     }).then(checkStatus)
         .then(parseJSON);
+}
+
+export const updateUserAPIMethod = (user) => {
+    return fetch(`/api/users/${user._id}`, {
+        ...defaultHeaders,
+        method: 'PUT',
+        body: JSON.stringify(user),
+    }).then(checkStatus);
 }
 
 function checkStatus(response) {

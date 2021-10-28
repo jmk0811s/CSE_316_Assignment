@@ -77,7 +77,12 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
                             className="save"
                             type="submit"
                             className="save"
-                            onClick={(e) => {setProfileUpdated(~profileUpdated); e.preventDefault(); setShowProfile(false)}}
+                            onClick={(e) => {
+                                    setProfileUpdated(~profileUpdated);
+                                    e.preventDefault();
+                                    setShowProfile(false);
+
+                            }}
                         >Save</button>
                         <button className="logout" type="button" className="logout">Logout</button>
                     </div>

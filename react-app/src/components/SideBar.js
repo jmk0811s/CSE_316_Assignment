@@ -23,7 +23,13 @@ const DeleteIcon = ({handleDeleteNote, activeNoteID}) => {
     );
 }
 
-function SideBar({notes, handleAddNote, handleDeleteNote, activeNoteID, setActiveNote, setShowProfile, setShowSideBar}) {
+function SideBar({notes, handleAddNote, handleDeleteNote, activeNoteID, setActiveNote, setShowProfile, setShowSideBar,
+                 searchQuery, setSearchQuery}) {
+
+    const handleChange = (e) => {
+        setSearchQuery(e.target.value);
+    }
+
     return (
         <div className="AppBody">
             <div className="sidebar">
@@ -34,7 +40,12 @@ function SideBar({notes, handleAddNote, handleDeleteNote, activeNoteID, setActiv
                 </div>
                 <div className="searchbox">
                     <SearchIcon/>
-                    <input className="search-input" type="text" placeholder="Search all notes"></input>
+                    <input className="search-input"
+                           type="text"
+                           value={searchQuery}
+                           placeholder="Search all notes"
+                           onChange={handleChange}
+                    ></input>
                 </div>
 
                 <div id="note-container" className="note-container">
@@ -44,6 +55,7 @@ function SideBar({notes, handleAddNote, handleDeleteNote, activeNoteID, setActiv
                         activeNoteID={activeNoteID}
                         setActiveNote={setActiveNote}
                         setShowSideBar={setShowSideBar}
+                        searchQuery={searchQuery}
                     />
                 </div>
             </div>
