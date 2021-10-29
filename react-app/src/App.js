@@ -33,7 +33,7 @@ function App() {
             console.log("Server Call\n");
             let sortedNotes = sortNotesByDate(notes);
             setNotes(sortedNotes);
-            setActiveNote(sortedNotes[0]._id);
+            if (sortedNotes.length != 0) setActiveNote(sortedNotes[0]._id);
             //console.dir(notes);
         });
     }, [serverCall]);

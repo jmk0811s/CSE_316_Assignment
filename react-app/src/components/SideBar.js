@@ -28,6 +28,15 @@ function SideBar({notes, handleAddNote, handleDeleteNote, activeNoteID, setActiv
 
     const handleChange = (e) => {
         setSearchQuery(e.target.value);
+        let filteredList = notes.filter(note => note.text.includes(e.target.value));
+        let filteredListId = [...filteredList.map((note) => note._id)];
+
+        console.log();
+
+        if (!filteredListId.includes(activeNoteID)) {
+            let filterNoteId = filteredList[0]._id;
+            setActiveNote(filterNoteId);
+        }
     }
 
     return (

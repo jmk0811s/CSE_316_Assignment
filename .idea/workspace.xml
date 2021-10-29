@@ -6,11 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="c047c264-187e-427f-b3e9-3c6f8f9f059e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-app/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-app/src/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/api/client.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-app/src/components/Notes.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/components/Notes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-app/src/components/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/components/Profile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react-app/src/components/TextArea.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/components/TextArea.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-app/src/components/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/components/SideBar.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +81,7 @@
       <workItem from="1635258319043" duration="4796000" />
       <workItem from="1635265910708" duration="444000" />
       <workItem from="1635266741610" duration="21500000" />
-      <workItem from="1635501627334" duration="8478000" />
+      <workItem from="1635501627334" duration="10964000" />
     </task>
     <servers />
   </component>

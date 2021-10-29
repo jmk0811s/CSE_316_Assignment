@@ -5,6 +5,7 @@ const defaultHeaders = {
     },
 }
 
+//get all notes
 export const getNotesAPIMethod = () => {
     return fetch(`/api/notes`, {
         ...defaultHeaders,
@@ -12,6 +13,7 @@ export const getNotesAPIMethod = () => {
         .then(parseJSON);
 }
 
+//get note by id
 export const getNoteByIdAPIMethod = (noteId) => {
     return fetch(`/api/notes/${noteId}`, {
         ...defaultHeaders,
@@ -19,6 +21,7 @@ export const getNoteByIdAPIMethod = (noteId) => {
         .then(parseJSON);
 }
 
+//add note
 export const createNoteAPIMethod = (note) => {
     return fetch(`/api/notes`, {
         ...defaultHeaders,
@@ -28,6 +31,7 @@ export const createNoteAPIMethod = (note) => {
         .then(parseJSON);
 }
 
+//update note
 export const updateNoteAPIMethod = (note) => {
     return fetch(`/api/notes/${note._id}`, {
         ...defaultHeaders,
@@ -36,6 +40,7 @@ export const updateNoteAPIMethod = (note) => {
     }).then(checkStatus);
 }
 
+//delete note
 export const deleteNoteByIdAPIMethod = (noteId) => {
     return fetch(`/api/notes/${noteId}`, {
         ...defaultHeaders,
@@ -44,6 +49,7 @@ export const deleteNoteByIdAPIMethod = (noteId) => {
         .then(parseJSON);
 }
 
+//get all users
 export const getUsersAPIMethod = () => {
     return fetch(`/api/users`, {
         ...defaultHeaders,
@@ -51,6 +57,7 @@ export const getUsersAPIMethod = () => {
         .then(parseJSON);
 }
 
+//add user
 export const createUserAPIMethod = (user) => {
     return fetch(`/api/users`, {
         ...defaultHeaders,
@@ -60,6 +67,7 @@ export const createUserAPIMethod = (user) => {
         .then(parseJSON);
 }
 
+//update user
 export const updateUserAPIMethod = (user) => {
     return fetch(`/api/users/${user._id}`, {
         ...defaultHeaders,
@@ -70,6 +78,14 @@ export const updateUserAPIMethod = (user) => {
             location: user.location
         }),
     }).then(checkStatus);
+}
+
+export const deleteUserByIdAPIMethod = (userId) => {
+    return fetch(`/api/users/${userId}`, {
+        ...defaultHeaders,
+        method: 'DELETE',
+    }).then(checkStatus)
+        .then(parseJSON);
 }
 
 function checkStatus(response) {
