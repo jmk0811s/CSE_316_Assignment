@@ -102,7 +102,7 @@ function App() {
     }
 
     const deleteNote = (id) => {
-        if (activeNote == '') return;
+        if (activeNote == '' || activeNote == undefined) return;
 
         const newNotes = notes.filter(note => note._id !== id);
         setNotes(newNotes);

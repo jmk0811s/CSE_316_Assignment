@@ -34,7 +34,10 @@ function SideBar({notes, handleAddNote, handleDeleteNote, activeNoteID, setActiv
         console.log();
 
         if (!filteredListId.includes(activeNoteID)) {
-            if (filteredListId.length == 0) return;
+            if (filteredListId.length == 0) {
+                setActiveNote((function () { return; })());
+                return;
+            }
             let filterNoteId = filteredList[0]._id;
             setActiveNote(filterNoteId);
         }
