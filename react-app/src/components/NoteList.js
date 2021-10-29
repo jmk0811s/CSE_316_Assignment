@@ -12,7 +12,7 @@ function NoteList({notes, handleAddNote, activeNoteID, setActiveNote, setShowSid
                 <Notes
                     id={note._id}
                     text={note.text}
-                    date={note.date}
+                    date={note.lastUpdatedDate}
                     handleAddNote={handleAddNote}
                     activeNoteID={activeNoteID}
                     setActiveNote={setActiveNote}

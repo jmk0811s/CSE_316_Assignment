@@ -66,7 +66,7 @@ function App() {
         let date = Date.now();
         const newNote = {
             text: text,
-            date: date
+            lastUpdatedDate: date
         }
 
         let newNotes = [...notes];
@@ -88,7 +88,7 @@ function App() {
         let currNote = notesList.filter(note => note._id === activeNoteId)[0];
 
         currNote.text = newText;
-        currNote.date = date;
+        currNote.lastUpdatedDate = date;
 
         newNotes = notesList.filter(note => note._id !== activeNoteId);
         newNotes.unshift(currNote);
@@ -128,7 +128,7 @@ function App() {
 
     const sortNotesByDate = (notes) => {
         let sortedList = [];
-        sortedList = notes.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+        sortedList = notes.sort((a, b) => Date.parse(b.lastUpdatedDate) - Date.parse(a.lastUpdatedDate));
         console.log("list sorted");
         return sortedList;
     }
