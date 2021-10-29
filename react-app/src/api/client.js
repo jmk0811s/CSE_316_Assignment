@@ -51,11 +51,24 @@ export const getUsersAPIMethod = () => {
         .then(parseJSON);
 }
 
+export const createUserAPIMethod = (user) => {
+    return fetch(`/api/users`, {
+        ...defaultHeaders,
+        method: 'POST',
+        body: JSON.stringify(user),
+    }).then(checkStatus)
+        .then(parseJSON);
+}
+
 export const updateUserAPIMethod = (user) => {
     return fetch(`/api/users/${user._id}`, {
         ...defaultHeaders,
         method: 'PUT',
-        body: JSON.stringify(user),
+        body: JSON.stringify({
+            name: user.name,
+            email: user.email,
+            location: user.location
+        }),
     }).then(checkStatus);
 }
 

@@ -2,7 +2,6 @@ import React, {useState} from "react"
 import NoteAdd from '@material-ui/icons/NoteAdd'
 import ArrowBack from '@material-ui/icons/ArrowBack'
 import Markdown from "./Markdown"
-import useWindowDimensions from "./WindowDimension"
 
 
 const NoteAddIcon = ({handleAddNote}) => {
@@ -21,11 +20,12 @@ const ArrowBackIcon = ({setShowSideBar}) => {
     );
 }
 
-function TextArea({handleAddNote, handleChangeNote, activeNote, setShowSideBar}) {
-    const {height, width} = useWindowDimensions()
+function TextArea({notes, handleAddNote, handleChangeNote, activeNote, setShowSideBar, saveNoteToServer}) {
 
     const handleChange = (e) => {
-        handleChangeNote(e.target.value);
+        if (activeNote === undefined) return;
+        handleChangeNote(e.target.value, false, notes, activeNote._id);
+        saveNoteToServer(e.target.value, notes, activeNote._id);
     }
 
     return (

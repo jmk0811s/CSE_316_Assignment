@@ -1,33 +1,22 @@
-import './../Profile.css'
-import React from "react"
+import './../Profile.css';
+import React from "react";
 import Close from "@material-ui/icons/Close";
+import {updateUserAPIMethod} from "../api/client";
 
 function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfileUpdated}) {
     const updateName = (newName) => {
-        let newProfile = {
-            name: newName,
-            email: profile.email,
-            location: profile.location
-        }
-        setProfile(newProfile);
+        profile.name = newName;
+        setProfileUpdated(!profileUpdated);
     }
 
     const updateEmail = (newEmail) => {
-        let newProfile = {
-            name: profile.name,
-            email: newEmail,
-            location: profile.location
-        }
-        setProfile(newProfile);
+        profile.email = newEmail;
+        setProfileUpdated(!profileUpdated);
     }
 
     const updateLocation = (newLocation) => {
-        let newProfile = {
-            name: profile.name,
-            email: profile.email,
-            location: newLocation
-        }
-        setProfile(newProfile);
+        profile.location = newLocation;
+        setProfileUpdated(!profileUpdated);
     }
 
     return (
@@ -78,10 +67,11 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
                             type="submit"
                             className="save"
                             onClick={(e) => {
-                                    setProfileUpdated(~profileUpdated);
+                                    setProfileUpdated(!profileUpdated);
                                     e.preventDefault();
                                     setShowProfile(false);
-
+                                    console.log(profile);
+                                    updateUserAPIMethod(profile);
                             }}
                         >Save</button>
                         <button className="logout" type="button" className="logout">Logout</button>

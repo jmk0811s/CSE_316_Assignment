@@ -2,12 +2,13 @@
 import './App.css'
 import SideBar from "./components/SideBar"
 import TextArea from "./components/TextArea"
-import React, {useState, useEffect}  from "react"
+import React, {useState, useEffect, useCallback}  from "react"
 import Profile from "./components/Profile"
 import useWindowDimensions from "./components/WindowDimension"
 import {
     getUsersAPIMethod,
     createNoteAPIMethod,
+    createUserAPIMethod,
     getNotesAPIMethod,
     getNoteByIdAPIMethod,
     updateNoteAPIMethod,
@@ -23,9 +24,7 @@ function App() {
     const [profileUpdated, setProfileUpdated] = useState(false);
     const [serverCall, setServerCall] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-
     const [profile, setProfile] = useState([]);
-
     const [notes, setNotes] = useState([]);
 
     //get notes from the database
@@ -34,6 +33,7 @@ function App() {
             console.log("Server Call\n");
             let sortedNotes = sortNotesByDate(notes);
             setNotes(sortedNotes);
+            setActiveNote(sortedNotes[0]._id);
             //console.dir(notes);
         });
     }, [serverCall]);
@@ -41,14 +41,15 @@ function App() {
     //get users from the database
     useEffect(() => {
         getUsersAPIMethod().then((users) => {
+            //Set default user (will be removed after sign-up function is implemented)
             if (users.length == 0) {
-                setProfile(
-                    {
-                        name: '',
-                        email: '',
-                        location: ''
-                    }
-                );
+                const defaultUser = {
+                    name: 'Minki Jeon',
+                    email: 'minki.jeon@stonybrook.edu',
+                    location: 'Incheon Songdo'
+                }
+                setProfile(defaultUser);
+                createUserAPIMethod(defaultUser);
             }
             else {
                 setProfile(users[0]);
@@ -62,7 +63,7 @@ function App() {
      */
 
     const addNote = (text) => {
-        let date = (new Date(Date.now())).toLocaleString();
+        let date = Date.now();
         const newNote = {
             text: text,
             date: date
@@ -75,25 +76,29 @@ function App() {
         setSearchQuery('');
 
         //server call
-        createNoteAPIMethod(newNote);
-        setServerCall(!serverCall);
+        createNoteAPIMethod(newNote).then(() => {
+            setServerCall(!serverCall);
+        });
     }
 
-    const editNoteText = (newText) => {
+    const editNoteText = (newText, serverCallFlag, notesList, activeNoteId) => {
         let newNotes = [];
-        const date = (new Date(Date.now())).toLocaleString();
+        const date = Date.now();
 
-        let currNote = notes.filter(note => note._id === activeNote)[0];
+        let currNote = notesList.filter(note => note._id === activeNoteId)[0];
+
         currNote.text = newText;
         currNote.date = date;
 
-        newNotes = notes.filter(note => note._id !== activeNote);
+        newNotes = notesList.filter(note => note._id !== activeNoteId);
         newNotes.unshift(currNote);
         setNotes(newNotes);
 
-        updateNoteAPIMethod(currNote);
-
-        //setServerCall(!serverCall);
+        console.log(currNote);
+        if (serverCallFlag) {
+            updateNoteAPIMethod(currNote);
+            console.log("server note updated");
+        }
     }
 
     const deleteNote = (id) => {
@@ -102,18 +107,18 @@ function App() {
         const newNotes = notes.filter(note => note._id !== id);
         setNotes(newNotes);
 
+        //server call
+        if (notes.length != 0) {
+            const note = getNoteByIdAPIMethod(id);
+            deleteNoteByIdAPIMethod(id);
+        }
+
         if (newNotes.length > 0) {
             setActiveNote(newNotes[0]._id);
         }
         else {
             setActiveNote('');
             return;
-        }
-
-        //server call
-        if (notes.length != 0) {
-            const note = getNoteByIdAPIMethod(id);
-            deleteNoteByIdAPIMethod(id);
         }
     }
 
@@ -122,13 +127,22 @@ function App() {
     }
 
     const sortNotesByDate = (notes) => {
-
-        return notes;
+        let sortedList = [];
+        sortedList = notes.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+        console.log("list sorted");
+        return sortedList;
     }
 
-    const updateProfile = () => {
-        setProfile();
+    function debounce(func, timeout = 1000){
+        let timer;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => { func.apply(this, args); }, timeout);
+        };
     }
+    const saveNoteToServer = useCallback( debounce((newText, notesList, activeNoteId) => {
+        editNoteText(newText, true, notesList, activeNoteId);
+    }), []);
 
     /*
      * Return
@@ -166,10 +180,12 @@ function App() {
             return (
                 <div className="App">
                     <TextArea
+                        notes={notes}
                         handleAddNote={addNote}
                         handleChangeNote={editNoteText}
                         activeNote={getActiveNote()}
                         setShowSideBar={setShowSideBar}
+                        saveNoteToServer={saveNoteToServer}
                     />
                     {showProfile ?
                         <Profile
@@ -200,10 +216,12 @@ function App() {
                     setSearchQuery={setSearchQuery}
                 />
                 <TextArea
+                    notes={notes}
                     handleAddNote={addNote}
                     handleChangeNote={editNoteText}
                     activeNote={getActiveNote()}
                     setShowSideBar={setShowSideBar}
+                    saveNoteToServer={saveNoteToServer}
                 />
                 {showProfile ?
                     <Profile

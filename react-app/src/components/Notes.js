@@ -9,7 +9,7 @@ function Notes({id, text, date, activeNoteID, setActiveNote, setShowSideBar}) {
             onClick={() => {setActiveNote(id); setShowSideBar(false)}}
         >
             <p className="noteText">{text.split(/\r?\n/)[0]}</p>
-            <p className="date">{date}</p>
+            <p className="date">{(new Date(date)).toLocaleString()}</p>
         </div>
     );
 }
