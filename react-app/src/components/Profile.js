@@ -2,6 +2,7 @@ import './../Profile.css';
 import React from "react";
 import Close from "@material-ui/icons/Close";
 import {updateUserAPIMethod} from "../api/client";
+import {uploadImageToCloudinaryAPIMethod} from "../api/client";
 
 function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfileUpdated}) {
     const updateName = (newName) => {
@@ -19,6 +20,32 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
         setProfileUpdated(!profileUpdated);
     }
 
+    const handleImageSelected = (event) => {
+        console.log("New file selected");
+        if (event.target.files && event.target.files[0]) {
+            const selectedFile = event.target.files[0];
+            console.dir(selectedFile);
+
+            const formData = new FormData();
+            const unsignedUploadPreset = 'euuinjpp'
+            formData.append('file', selectedFile);
+            formData.append('upload_preset', unsignedUploadPreset);
+
+            console.log("Cloudinary upload");
+            uploadImageToCloudinaryAPIMethod(formData).then((response) => {
+                console.log("Upload success");
+                console.dir(response);
+
+                // Now the URL gets saved to the author
+                //const updatedAuthor = {...author, "profile_url": response.url};
+                //setAuthor(updatedAuthor);
+
+                // Now we want to make sure this is updated on the server – either the
+                // user needs to click the submit button, or we could trigger the server call here
+            });
+        }
+    }
+
     return (
         <div id="profile" className="profile">
             <form className="profile-content" action="" method="POST">
@@ -29,7 +56,16 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
                     </div>
                     <div className="wrapper1">
                         <button className="profile_pic_2"></button>
-                        <button className="change-image">Choose New Image</button>
+                        <input className="change-image"
+                                type="file"
+                                name="image"
+                                accept="image/*"
+                                id="cloudinary"
+                                onChange={(e) => {
+                                    e.preventDefault();
+                                    handleImageSelected(e);
+                                }}
+                        />
                         <button className="remove-image">Remove Image</button>
                     </div>
                     <div className="wrapper2">
@@ -74,7 +110,7 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
                                     updateUserAPIMethod(profile);
                             }}
                         >Save</button>
-                        <button className="logout" type="button" className="logout">Logout</button>
+                        <button className="logout" type="button">Logout</button>
                     </div>
                 </div>
             </form>

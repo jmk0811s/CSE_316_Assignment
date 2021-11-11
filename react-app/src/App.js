@@ -2,6 +2,7 @@
 import './App.css'
 import SideBar from "./components/SideBar"
 import TextArea from "./components/TextArea"
+import Login from "./components/Login"
 import React, {useState, useEffect, useCallback}  from "react"
 import Profile from "./components/Profile"
 import useWindowDimensions from "./components/WindowDimension"
@@ -13,10 +14,13 @@ import {
     getNoteByIdAPIMethod,
     updateNoteAPIMethod,
     deleteNoteByIdAPIMethod,
+    getCurrentUserAPIMethod,
     updateUserAPIMethod
 } from "./api/client"
 
 function App() {
+    const [login, setLogin] = useState(false);
+    const [currentUser, setCurrentUser] = useState('');
     const [activeNote, setActiveNote] = useState('');
     const [showProfile, setShowProfile] = useState(false);
     const {height, width} = useWindowDimensions();
@@ -29,15 +33,33 @@ function App() {
 
     //get notes from the database
     useEffect(() => {
+        getCurrentUserAPIMethod().then((user) => {
+            if (Object.keys(user).length == 0) {
+                setLogin(false);
+            }
+            else {
+                setCurrentUser(user);
+                setLogin(true);
+            }
+        })
+    }, []);
+
+    const getNotes = () => {
         getNotesAPIMethod().then((notes) => {
             console.log("Server Call\n");
             let sortedNotes = sortNotesByDate(notes);
             setNotes(sortedNotes);
             if (sortedNotes.length != 0) setActiveNote(sortedNotes[0]._id);
-            //console.dir(notes);
         });
+    }
+
+    useEffect(() => {
+        if (login) {
+            getNotes();
+        }
     }, [serverCall]);
 
+    /*
     //get users from the database
     useEffect(() => {
         getUsersAPIMethod().then((users) => {
@@ -46,7 +68,8 @@ function App() {
                 const defaultUser = {
                     name: 'Minki Jeon',
                     email: 'minki.jeon@stonybrook.edu',
-                    location: 'Incheon Songdo'
+                    location: 'Incheon Songdo',
+                    profile_url: ''
                 }
                 setProfile(defaultUser);
                 createUserAPIMethod(defaultUser);
@@ -57,6 +80,8 @@ function App() {
             console.dir(users);
         });
     }, []);
+
+     */
 
     /*
      * Note editing
@@ -149,7 +174,73 @@ function App() {
      */
 
     if (width <= 500) {
-        if (showSideBar) {
+        if (!login) {
+            //login page, width > 500
+            return (
+                <Login />
+            );
+        }
+        else {
+            if (showSideBar) {
+                return (
+                    <div className="App">
+                        <SideBar
+                            notes={notes}
+                            handleAddNote={addNote}
+                            handleChangeNote={editNoteText}
+                            handleDeleteNote={deleteNote}
+                            activeNoteID={activeNote}
+                            setActiveNote={setActiveNote}
+                            setShowProfile={setShowProfile}
+                            setShowSideBar={setShowSideBar}
+                            searchQuery={searchQuery}
+                            setSearchQuery={setSearchQuery}
+                        />
+                        {showProfile ?
+                            <Profile
+                                setShowProfile={setShowProfile}
+                                profile={profile}
+                                setProfile={setProfile}
+                                profileUpdated={profileUpdated}
+                                setProfileUpdated={setProfileUpdated}
+                            /> : null
+                        }
+                    </div>
+                );
+            }
+            else {
+                return (
+                    <div className="App">
+                        <TextArea
+                            notes={notes}
+                            handleAddNote={addNote}
+                            handleChangeNote={editNoteText}
+                            activeNote={getActiveNote()}
+                            setShowSideBar={setShowSideBar}
+                            saveNoteToServer={saveNoteToServer}
+                        />
+                        {showProfile ?
+                            <Profile
+                                setShowProfile={setShowProfile}
+                                profile={profile}
+                                setProfile={setProfile}
+                                profileUpdated={profileUpdated}
+                                setProfileUpdated={setProfileUpdated}
+                            /> : null
+                        }
+                    </div>
+                );
+            }
+        }
+    }
+    else {
+        if (!login) {
+            //login page, width <= 500
+            return (
+                <Login />
+            );
+        }
+        else {
             return (
                 <div className="App">
                     <SideBar
@@ -164,21 +255,6 @@ function App() {
                         searchQuery={searchQuery}
                         setSearchQuery={setSearchQuery}
                     />
-                    {showProfile ?
-                        <Profile
-                            setShowProfile={setShowProfile}
-                            profile={profile}
-                            setProfile={setProfile}
-                            profileUpdated={profileUpdated}
-                            setProfileUpdated={setProfileUpdated}
-                        /> : null
-                    }
-                </div>
-            );
-        }
-        else {
-            return (
-                <div className="App">
                     <TextArea
                         notes={notes}
                         handleAddNote={addNote}
@@ -199,41 +275,6 @@ function App() {
                 </div>
             );
         }
-    }
-    else {
-        return (
-            <div className="App">
-                <SideBar
-                    notes={notes}
-                    handleAddNote={addNote}
-                    handleChangeNote={editNoteText}
-                    handleDeleteNote={deleteNote}
-                    activeNoteID={activeNote}
-                    setActiveNote={setActiveNote}
-                    setShowProfile={setShowProfile}
-                    setShowSideBar={setShowSideBar}
-                    searchQuery={searchQuery}
-                    setSearchQuery={setSearchQuery}
-                />
-                <TextArea
-                    notes={notes}
-                    handleAddNote={addNote}
-                    handleChangeNote={editNoteText}
-                    activeNote={getActiveNote()}
-                    setShowSideBar={setShowSideBar}
-                    saveNoteToServer={saveNoteToServer}
-                />
-                {showProfile ?
-                    <Profile
-                        setShowProfile={setShowProfile}
-                        profile={profile}
-                        setProfile={setProfile}
-                        profileUpdated={profileUpdated}
-                        setProfileUpdated={setProfileUpdated}
-                    /> : null
-                }
-            </div>
-        );
     }
 }
 

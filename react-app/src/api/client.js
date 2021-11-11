@@ -5,6 +5,14 @@ const defaultHeaders = {
     },
 }
 
+//get current user
+export const getCurrentUserAPIMethod = () => {
+    return fetch(`/api/currentuser`, {
+        ...defaultHeaders,
+    }).then(checkStatus)
+        .then(parseJSON);
+}
+
 //get all notes
 export const getNotesAPIMethod = () => {
     return fetch(`/api/notes`, {
@@ -84,6 +92,16 @@ export const deleteUserByIdAPIMethod = (userId) => {
     return fetch(`/api/users/${userId}`, {
         ...defaultHeaders,
         method: 'DELETE',
+    }).then(checkStatus)
+        .then(parseJSON);
+}
+
+//upload profile image to cloudinary
+export const uploadImageToCloudinaryAPIMethod = (formData) => {
+    const cloudName = 'minkijeon';
+    return fetch('https://api.cloudinary.com/v1_1/${cloudName}/upload', {
+        method: 'POST',
+        body: formData,
     }).then(checkStatus)
         .then(parseJSON);
 }
