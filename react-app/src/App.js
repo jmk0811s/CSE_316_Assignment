@@ -34,12 +34,17 @@ function App() {
     //get notes from the database
     useEffect(() => {
         getCurrentUserAPIMethod().then((user) => {
-            if (Object.keys(user).length == 0) {
+            console.log(user);
+            if (user == null) {
+                setLogin(false);
+            }
+            else if (Object.keys(user).length == 0) {
                 setLogin(false);
             }
             else {
                 setCurrentUser(user);
                 setLogin(true);
+                setServerCall(!serverCall);
             }
         })
     }, []);
@@ -154,6 +159,7 @@ function App() {
     const sortNotesByDate = (notes) => {
         let sortedList = [];
         sortedList = notes.sort((a, b) => Date.parse(b.lastUpdatedDate) - Date.parse(a.lastUpdatedDate));
+        console.log();
         console.log("list sorted");
         return sortedList;
     }
@@ -177,7 +183,11 @@ function App() {
         if (!login) {
             //login page, width > 500
             return (
-                <Login />
+                <Login
+                    setLogin={setLogin}
+                    serverCall={serverCall}
+                    setServerCall={setServerCall}
+                />
             );
         }
         else {
@@ -203,6 +213,10 @@ function App() {
                                 setProfile={setProfile}
                                 profileUpdated={profileUpdated}
                                 setProfileUpdated={setProfileUpdated}
+                                serverCall={serverCall}
+                                setServerCall={setServerCall}
+                                setLogin={setLogin}
+                                showProfile={showProfile}
                             /> : null
                         }
                     </div>
@@ -226,6 +240,10 @@ function App() {
                                 setProfile={setProfile}
                                 profileUpdated={profileUpdated}
                                 setProfileUpdated={setProfileUpdated}
+                                serverCall={serverCall}
+                                setServerCall={setServerCall}
+                                setLogin={setLogin}
+                                showProfile={showProfile}
                             /> : null
                         }
                     </div>
@@ -237,7 +255,11 @@ function App() {
         if (!login) {
             //login page, width <= 500
             return (
-                <Login />
+                <Login
+                    setLogin={setLogin}
+                    serverCall={serverCall}
+                    setServerCall={setServerCall}
+                />
             );
         }
         else {
@@ -270,6 +292,10 @@ function App() {
                             setProfile={setProfile}
                             profileUpdated={profileUpdated}
                             setProfileUpdated={setProfileUpdated}
+                            serverCall={serverCall}
+                            setServerCall={setServerCall}
+                            setLogin={setLogin}
+                            showProfile={showProfile}
                         /> : null
                     }
                 </div>

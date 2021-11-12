@@ -5,7 +5,7 @@ const defaultHeaders = {
     },
 }
 
-//get current user
+//get current user @
 export const getCurrentUserAPIMethod = () => {
     return fetch(`/api/currentuser`, {
         ...defaultHeaders,
@@ -65,26 +65,39 @@ export const getUsersAPIMethod = () => {
         .then(parseJSON);
 }
 
-//add user
+//user register @
 export const createUserAPIMethod = (user) => {
     return fetch(`/api/users`, {
         ...defaultHeaders,
         method: 'POST',
         body: JSON.stringify(user),
-    }).then(checkStatus)
-        .then(parseJSON);
+    }).then(checkLoginStatus);
 }
 
-//update user
+//user login @
+export const loginUserAPIMethod = (user) => {
+    return fetch(`/api/login`, {
+        ...defaultHeaders,
+        method: 'POST',
+        body: JSON.stringify(user),
+    }).then(checkLoginStatus);
+}
+
+//user logout @
+export const logoutUserAPIMethod = (user) => {
+    return fetch(`/api/logout`, {
+        ...defaultHeaders,
+        method: 'POST',
+        body: JSON.stringify(user),
+    }).then(checkLoginStatus);
+}
+
+//update user info @
 export const updateUserAPIMethod = (user) => {
     return fetch(`/api/users/${user._id}`, {
         ...defaultHeaders,
         method: 'PUT',
-        body: JSON.stringify({
-            name: user.name,
-            email: user.email,
-            location: user.location
-        }),
+        body: JSON.stringify(user),
     }).then(checkStatus);
 }
 
@@ -104,6 +117,14 @@ export const uploadImageToCloudinaryAPIMethod = (formData) => {
         body: formData,
     }).then(checkStatus)
         .then(parseJSON);
+}
+
+function checkLoginStatus(response) {
+    if (response.status >= 200 && response.status < 300) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function checkStatus(response) {

@@ -1,49 +1,80 @@
 import React from "react";
 import {useState}  from "react";
 import Signup from "./Signup";
+import {createUserAPIMethod, loginUserAPIMethod} from "../api/client";
 
-function Login() {
+function Login({setLogin, serverCall, setServerCall}) {
     const [showSignup, setShowSignup] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showError, setShowError] = useState(false);
 
-    const handleChange = (e) => {
+    const handleChangeEmail = (e) => {
+        e.preventDefault();
         console.log(e.target.value);
-
+        setEmail(e.target.value);
     }
 
-    if (showSignup) {
-        return (
-            <Signup />
-        );
+    const handleChangePassword = (e) => {
+        e.preventDefault();
+        setPassword(e.target.value);
     }
-    else {
-        return (
+
+    const handleSubmitLogin = (e) => {
+        e.preventDefault();
+        let userInfo = {"email": email, "password": password};
+        loginUserAPIMethod(userInfo).then((status) => {
+            if (status) {
+                setShowError(false);
+                setLogin(true);
+                setServerCall(!serverCall);
+            }
+            else {
+                setShowError(true);
+            }
+        });
+    }
+
+    return (
+        <div>
+            {showSignup ? <Signup
+                setLogin={setLogin}
+                serverCall={serverCall}
+                setServerCall={setServerCall}
+                setShowSignup={setShowSignup}
+            /> : null}
             <div className="login-page-wrapper">
                 <form className="login-form" action="" method="POST">
-                <h1>Notes</h1>
-                <h2>Organize all your thoughts in one place.</h2>
-                <div className="wrapper1">
-                    <p>Email</p>
-                    <input
-                        className="login-email-input"
-                        type="text"
-                        placeholder="minki.jeon@stonybrook.edu"
-                        name="email"
-                        onChange={handleChange}
-                    ></input>
-                    <p>Password</p>
-                    <input
-                        className="login-password-input"
-                        type="text"
-                        placeholder="******"
-                        name="password"
-                        onChange={handleChange}
-                    ></input>
-                    <button className="login" type="button">Logout</button>
-                </div>
+                    <h1 className="login-title">Notes</h1>
+                    <h2 className="login-subtitle">Organize all your thoughts in one place.</h2>
+                    <div className="login-wrapper1">
+                        <p>Email</p>
+                        <input
+                            className="login-email-input"
+                            type="text"
+                            value={email}
+                            placeholder="minki.jeon@stonybrook.edu"
+                            name="email"
+                            onChange={handleChangeEmail}
+                        ></input>
+                        <p>Password</p>
+                        <input
+                            className="login-password-input"
+                            type="password"
+                            value={password}
+                            placeholder="******"
+                            name="password"
+                            onChange={handleChangePassword}
+                        ></input>
+                        {showError ? <p style={{color: "red"}}>Error: Invalid email and/or password</p> : <p> </p>}
+                        <button className="login-button" type="button" onClick={handleSubmitLogin}>Login</button>
+                        <div className="divider"></div>
+                        <button className="create-account-button" type="button" onClick={() => setShowSignup(true)}>Create New Account</button>
+                    </div>
                 </form>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default Login;

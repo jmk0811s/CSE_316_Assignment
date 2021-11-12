@@ -1,24 +1,22 @@
 import './../Profile.css';
 import React from "react";
 import Close from "@material-ui/icons/Close";
-import {updateUserAPIMethod} from "../api/client";
+import {useState, useEffect}  from "react";
+import {updateUserAPIMethod, logoutUserAPIMethod, getCurrentUserAPIMethod} from "../api/client";
 import {uploadImageToCloudinaryAPIMethod} from "../api/client";
 
-function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfileUpdated}) {
-    const updateName = (newName) => {
-        profile.name = newName;
-        setProfileUpdated(!profileUpdated);
-    }
+function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfileUpdated, serverCall, setServerCall, setLogin, showProfile}) {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [location, setLocation] = useState('');
 
-    const updateEmail = (newEmail) => {
-        profile.email = newEmail;
-        setProfileUpdated(!profileUpdated);
-    }
-
-    const updateLocation = (newLocation) => {
-        profile.location = newLocation;
-        setProfileUpdated(!profileUpdated);
-    }
+    useEffect(() => {
+        getCurrentUserAPIMethod().then((user) => {
+            setName(user.name);
+            setEmail(user.email);
+            setLocation(user.location);
+        })
+    }, [showProfile]);
 
     const handleImageSelected = (event) => {
         console.log("New file selected");
@@ -46,6 +44,12 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
         }
     }
 
+    const handleLogout = () => {
+        logoutUserAPIMethod({});
+        setLogin(false);
+        setServerCall(!serverCall);
+    }
+
     return (
         <div id="profile" className="profile">
             <form className="profile-content" action="" method="POST">
@@ -68,33 +72,33 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
                         />
                         <button className="remove-image">Remove Image</button>
                     </div>
-                    <div className="wrapper2">
+                    <div className="wrapper2-profile">
                         <b>Name</b>
                         <input
                             className="profile-input"
                             type="text"
-                            value={profile.name}
+                            value={name}
                             placeholder="Minki Jeon"
                             name="name"
-                            onChange={(e) => updateName(e.target.value)}
+                            onChange={(e) => setName(e.target.value)}
                         ></input>
                         <b>E-mail</b>
                         <input
                             className="profile-input"
                             type="text"
-                            value={profile.email}
+                            value={email}
                             placeholder="minki.jeon@stonybrook.edu"
                             name="email"
-                            onChange={(e) => updateEmail(e.target.value)}
+                            onChange={(e) => setEmail(e.target.value)}
                         ></input>
                         <b>Location</b>
                         <input
                             className="profile-input"
                             type="text"
-                            value={profile.location}
+                            value={location}
                             placeholder="Incheon Songdo"
                             name="location"
-                            onChange={(e) => updateLocation(e.target.value)}
+                            onChange={(e) => setLocation(e.target.value)}
                         ></input>
                     </div>
                     <div className="wrapper3">
@@ -103,14 +107,20 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
                             type="submit"
                             className="save"
                             onClick={(e) => {
-                                    setProfileUpdated(!profileUpdated);
+                                    //setProfileUpdated(!profileUpdated);
                                     e.preventDefault();
                                     setShowProfile(false);
-                                    console.log(profile);
-                                    updateUserAPIMethod(profile);
+                                    getCurrentUserAPIMethod().then((user) => {
+                                        console.log(user);
+                                        user.name = name;
+                                        user.email = email;
+                                        user.location = location;
+                                        console.log(user);
+                                        updateUserAPIMethod(user);
+                                    });
                             }}
                         >Save</button>
-                        <button className="logout" type="button">Logout</button>
+                        <button className="logout" type="button" onClick={handleLogout}>Logout</button>
                     </div>
                 </div>
             </form>

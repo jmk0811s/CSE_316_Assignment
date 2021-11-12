@@ -14,9 +14,9 @@
 
 body, .App {
   background-color: var(--background-color);
+  overflow: hidden;
   width: 100%;
   height: 100vh;
-  overflow: hidden;
 }
 
 .App {
@@ -65,17 +65,26 @@ body, .App {
   height: 100%;
   overflow: auto;
   background-color: rgba(71, 78, 93, 0.8);
-  padding-top: 50px;
+  display: flex;
 }
 
-.profile-content, .login-form {
+.profile-content {
+  margin: auto;
+  height: 450px;
+  top: 0;
+  z-index: 1;
+}
+
+.login-form {
+  margin: auto;
+  width: 100%;
+  height: 450px;
   z-index: 1;
 }
 
 form {
   margin: auto;
   position: relative;
-  width: 365px;
   height: 420px;
   top: 12%;
 }
@@ -105,9 +114,17 @@ form {
   margin-bottom: 8px;
 }
 
+.wrapper2-profile {
+  width: 300px;
+  height: 190px;
+  margin-left: 30px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
 .wrapper2 {
   width: 300px;
-  height: 220px;
+  height: 190px;
   margin-left: 30px;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -122,7 +139,7 @@ form {
 }
 
 .change-image, .remove-image {
-  background-color: deeppink;
+  background-color: white;
   width: 130px;
   height: 40px;
   border-radius: 12px;
@@ -199,6 +216,8 @@ form {
   float: left;
   left: 50px;
   top: 10px;
+  border: none;
+  outline: none;
 }
 
 .delete-icon {
@@ -315,10 +334,119 @@ textarea {
  *  Login Page
  */
 
+.login-title, .login-subtitle {
+  text-align: center;
+}
+
 .login-email-input, .login-password-input {
   width: 100%;
   padding: 10px;
   border: 1px solid;
+}
+
+.login-page-wrapper {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #f4f4f4;
+  position: fixed;
+  justify-content: center;
+}
+
+.login-wrapper1 {
+  background-color: #ffffff;
+  width: 450px;
+  max-height: 500px;
+  border-radius: 12px;
+  margin: 0 auto;
+  position: relative;
+  padding-top: 1px;
+  padding-bottom: 25px;
+  padding-left: 12px;
+  padding-right: 34px;
+  justify-content: center;
+}
+
+.login-button {
+  background-color: rgb(58, 99, 197);
+  color: white;
+  width: 472px;
+  height: 40px;
+  border: none;
+  border-radius: 12px;
+}
+
+.create-account-button {
+  background-color: green;
+  color: white;
+  width: 200px;
+  height: 40px;
+  border: none;
+  border-radius: 12px;
+  margin-top: 20px;
+  margin-left: 140px;
+}
+
+.login-button-wrapper {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  padding: 0;
+}
+
+.divider {
+  background-color: darkgray;
+  margin-top: 20px;
+  width: 472px;
+  height: 2px;
+}
+
+/*
+ *  sign-up page
+ */
+
+.signup-background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(71, 78, 93, 0.8);
+  padding-top: 50px;
+  z-index: 2;
+}
+
+.signup-container {
+  background-color: #ffffff;
+  float: left;
+  width: 365px;
+  max-height: 350px;
+  border-radius: 12px;
+  margin: 0 auto;
+  position: relative;
+  justify-content: center;
+  z-index: 2;
+}
+
+.signup-wrapper1 {
+  display: flex;
+}
+
+.signup-button {
+  background-color: green;
+  color: white;
+  width: 120px;
+  height: 40px;
+  border: none;
+  border-radius: 12px;
+  margin-left: 92px;
+}
+
+.error-message {
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 @media all and (max-width: 700px) {
@@ -365,6 +493,19 @@ textarea {
     position: fixed;
     justify-content: center;
     z-index: 1;
+    left: 0;
+    top: -80px;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: #ffffff;
+    padding-top: 50px;
+  }
+
+  .signup-background {
+    position: fixed;
+    justify-content: center;
+    z-index: 2;
     left: 0;
     top: -80px;
     width: 100%;
