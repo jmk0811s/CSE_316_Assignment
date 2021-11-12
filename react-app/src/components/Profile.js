@@ -1,14 +1,18 @@
 import './../Profile.css';
 import React from "react";
 import Close from "@material-ui/icons/Close";
-import {useState, useEffect}  from "react";
+import {useState, useEffect, useRef}  from "react";
 import {updateUserAPIMethod, logoutUserAPIMethod, getCurrentUserAPIMethod} from "../api/client";
 import {uploadImageToCloudinaryAPIMethod} from "../api/client";
 
-function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfileUpdated, serverCall, setServerCall, setLogin, showProfile}) {
+function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfileUpdated, serverCall, setServerCall, setLogin, showProfile,
+                     defaultImage, setDefaultImage, imageURL, setImageURL}) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [location, setLocation] = useState('');
+    const inputRef = useRef(null);
+    const [formData, setFormData] = useState(null);
+    const [imageSelected, setImageSelected] = useState(false);
 
     useEffect(() => {
         getCurrentUserAPIMethod().then((user) => {
@@ -18,29 +22,27 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
         })
     }, [showProfile]);
 
-    const handleImageSelected = (event) => {
-        console.log("New file selected");
-        if (event.target.files && event.target.files[0]) {
-            const selectedFile = event.target.files[0];
-            console.dir(selectedFile);
+    const addImage = (e) => {
+        e.preventDefault();
+        inputRef.current.click();
+    }
 
+    const removeImage = (e) => {
+        e.preventDefault();
+        setDefaultImage(true);
+        setFormData(null);
+    }
+
+    const handleImageSelected = (e) => {
+        console.log("New file selected");
+        if (e.target.files && e.target.files[0]) {
+            const selectedFile = e.target.files[0];
+            console.dir(selectedFile);
             const formData = new FormData();
             const unsignedUploadPreset = 'euuinjpp'
             formData.append('file', selectedFile);
             formData.append('upload_preset', unsignedUploadPreset);
-
-            console.log("Cloudinary upload");
-            uploadImageToCloudinaryAPIMethod(formData).then((response) => {
-                console.log("Upload success");
-                console.dir(response);
-
-                // Now the URL gets saved to the author
-                //const updatedAuthor = {...author, "profile_url": response.url};
-                //setAuthor(updatedAuthor);
-
-                // Now we want to make sure this is updated on the server – either the
-                // user needs to click the submit button, or we could trigger the server call here
-            });
+            setFormData(formData);
         }
     }
 
@@ -59,18 +61,21 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
                         <Close className="close-icon" onClick={() => setShowProfile(false)}></Close>
                     </div>
                     <div className="wrapper1">
-                        <button className="profile_pic_2"></button>
-                        <input className="change-image"
-                                type="file"
-                                name="image"
-                                accept="image/*"
-                                id="cloudinary"
-                                onChange={(e) => {
-                                    e.preventDefault();
-                                    handleImageSelected(e);
-                                }}
+                        <button
+                            className="profile_pic_2"
+                            onClick={addImage}
+                            style={{backgroundImage: `url(${defaultImage ? 'default_profile_image.png' : imageURL})`}}
+                        ></button>
+                        <input
+                            ref={inputRef}
+                            type="file"
+                            name="image"
+                            accept="image/*"
+                            id="cloudinary"
+                            onChange={handleImageSelected}
                         />
-                        <button className="remove-image">Remove Image</button>
+                        <button className="change-image" onClick={addImage}>Choose New Image</button>
+                        <button className="remove-image" onClick={removeImage}>Remove Image</button>
                     </div>
                     <div className="wrapper2-profile">
                         <b>Name</b>
@@ -107,17 +112,33 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
                             type="submit"
                             className="save"
                             onClick={(e) => {
-                                    //setProfileUpdated(!profileUpdated);
-                                    e.preventDefault();
-                                    setShowProfile(false);
+                                e.preventDefault();
+                                if (formData != null) {
+                                    uploadImageToCloudinaryAPIMethod(formData).then((response) => {
+                                        getCurrentUserAPIMethod().then((user) => {
+                                            console.log(user);
+                                            user.name = name;
+                                            user.email = email;
+                                            user.location = location;
+                                            user.profile_url = response.url;
+                                            setImageURL(response.url);
+                                            updateUserAPIMethod(user);
+                                        });
+                                    });
+                                    setFormData(null);
+                                }
+                                else {
                                     getCurrentUserAPIMethod().then((user) => {
                                         console.log(user);
                                         user.name = name;
                                         user.email = email;
                                         user.location = location;
-                                        console.log(user);
+                                        user.profile_url = '';
+                                        setImageURL('');
                                         updateUserAPIMethod(user);
                                     });
+                                }
+                                setShowProfile(false);
                             }}
                         >Save</button>
                         <button className="logout" type="button" onClick={handleLogout}>Logout</button>

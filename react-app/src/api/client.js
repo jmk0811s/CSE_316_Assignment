@@ -112,7 +112,7 @@ export const deleteUserByIdAPIMethod = (userId) => {
 //upload profile image to cloudinary
 export const uploadImageToCloudinaryAPIMethod = (formData) => {
     const cloudName = 'minkijeon';
-    return fetch('https://api.cloudinary.com/v1_1/${cloudName}/upload', {
+    return fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
         method: 'POST',
         body: formData,
     }).then(checkStatus)

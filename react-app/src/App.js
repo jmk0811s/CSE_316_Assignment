@@ -7,15 +7,12 @@ import React, {useState, useEffect, useCallback}  from "react"
 import Profile from "./components/Profile"
 import useWindowDimensions from "./components/WindowDimension"
 import {
-    getUsersAPIMethod,
     createNoteAPIMethod,
-    createUserAPIMethod,
     getNotesAPIMethod,
     getNoteByIdAPIMethod,
     updateNoteAPIMethod,
     deleteNoteByIdAPIMethod,
     getCurrentUserAPIMethod,
-    updateUserAPIMethod
 } from "./api/client"
 
 function App() {
@@ -30,6 +27,8 @@ function App() {
     const [searchQuery, setSearchQuery] = useState('');
     const [profile, setProfile] = useState([]);
     const [notes, setNotes] = useState([]);
+    const [defaultImage, setDefaultImage] = useState(true);
+    const [imageURL, setImageURL] = useState('');
 
     //get notes from the database
     useEffect(() => {
@@ -42,12 +41,27 @@ function App() {
                 setLogin(false);
             }
             else {
+                if (user.hasOwnProperty('profile_url')) {
+                    if (user.profile_url == '' || user.profile_url == null) {
+                        console.log("default image");
+                        setDefaultImage(true);
+                    }
+                    else {
+                        setImageURL(user.profile_url);
+                        setDefaultImage(false);
+                    }
+                }
+                else {
+                    console.log("default image");
+                    setDefaultImage(true);
+                }
                 setCurrentUser(user);
                 setLogin(true);
+                setShowProfile(false);
                 setServerCall(!serverCall);
             }
         })
-    }, []);
+    }, [imageURL]);
 
     const getNotes = () => {
         getNotesAPIMethod().then((notes) => {
@@ -63,30 +77,6 @@ function App() {
             getNotes();
         }
     }, [serverCall]);
-
-    /*
-    //get users from the database
-    useEffect(() => {
-        getUsersAPIMethod().then((users) => {
-            //Set default user (will be removed after sign-up function is implemented)
-            if (users.length == 0) {
-                const defaultUser = {
-                    name: 'Minki Jeon',
-                    email: 'minki.jeon@stonybrook.edu',
-                    location: 'Incheon Songdo',
-                    profile_url: ''
-                }
-                setProfile(defaultUser);
-                createUserAPIMethod(defaultUser);
-            }
-            else {
-                setProfile(users[0]);
-            }
-            console.dir(users);
-        });
-    }, []);
-
-     */
 
     /*
      * Note editing
@@ -205,6 +195,8 @@ function App() {
                             setShowSideBar={setShowSideBar}
                             searchQuery={searchQuery}
                             setSearchQuery={setSearchQuery}
+                            defaultImage={defaultImage}
+                            imageURL={imageURL}
                         />
                         {showProfile ?
                             <Profile
@@ -217,6 +209,10 @@ function App() {
                                 setServerCall={setServerCall}
                                 setLogin={setLogin}
                                 showProfile={showProfile}
+                                defaultImage={defaultImage}
+                                setDefaultImage={setDefaultImage}
+                                imageURL={imageURL}
+                                setImageURL={setImageURL}
                             /> : null
                         }
                     </div>
@@ -244,6 +240,10 @@ function App() {
                                 setServerCall={setServerCall}
                                 setLogin={setLogin}
                                 showProfile={showProfile}
+                                defaultImage={defaultImage}
+                                setDefaultImage={setDefaultImage}
+                                imageURL={imageURL}
+                                setImageURL={setImageURL}
                             /> : null
                         }
                     </div>
@@ -276,6 +276,8 @@ function App() {
                         setShowSideBar={setShowSideBar}
                         searchQuery={searchQuery}
                         setSearchQuery={setSearchQuery}
+                        defaultImage={defaultImage}
+                        imageURL={imageURL}
                     />
                     <TextArea
                         notes={notes}
@@ -296,6 +298,10 @@ function App() {
                             setServerCall={setServerCall}
                             setLogin={setLogin}
                             showProfile={showProfile}
+                            defaultImage={defaultImage}
+                            setDefaultImage={setDefaultImage}
+                            imageURL={imageURL}
+                            setImageURL={setImageURL}
                         /> : null
                     }
                 </div>

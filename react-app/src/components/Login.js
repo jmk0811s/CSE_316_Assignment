@@ -36,7 +36,7 @@ function Login({setLogin, serverCall, setServerCall}) {
     }
 
     return (
-        <div>
+        <div style={{display: "flex", justifyContent: "center"}}>
             {showSignup ? <Signup
                 setLogin={setLogin}
                 serverCall={serverCall}

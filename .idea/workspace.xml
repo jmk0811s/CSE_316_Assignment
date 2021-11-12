@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c047c264-187e-427f-b3e9-3c6f8f9f059e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/react-app/src/default_profile_image.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-app/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-app/src/api/client.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/api/client.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-app/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/components/Login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-app/src/components/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/components/Profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/react-app/src/components/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/components/SideBar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/react-app/src/components/Signup.js" beforeDir="false" afterPath="$PROJECT_DIR$/react-app/src/components/Signup.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +48,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/react-app/src" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -58,6 +60,9 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/react-app/src" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/react-app/src" />
     </key>
@@ -88,7 +93,7 @@
       <workItem from="1636388691432" duration="4998000" />
       <workItem from="1636558022031" duration="419000" />
       <workItem from="1636564823641" duration="4876000" />
-      <workItem from="1636650401437" duration="18221000" />
+      <workItem from="1636650401437" duration="26594000" />
     </task>
     <servers />
   </component>
