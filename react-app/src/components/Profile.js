@@ -137,15 +137,28 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
                                     setFormData(null);
                                 }
                                 else {
-                                    getCurrentUserAPIMethod().then((user) => {
-                                        console.log(user);
-                                        user.name = name;
-                                        user.email = email;
-                                        user.location = location;
-                                        user.profile_url = '';
-                                        setImageURL('');
-                                        updateUserAPIMethod(user);
-                                    });
+                                    if (defaultImage == false && imageRemoved == false) {
+                                        getCurrentUserAPIMethod().then((user) => {
+                                            console.log(user);
+                                            user.name = name;
+                                            user.email = email;
+                                            user.location = location;
+                                            user.profile_url = user.profile_url;
+                                            setImageURL('');
+                                            updateUserAPIMethod(user);
+                                        });
+                                    }
+                                    else {
+                                        getCurrentUserAPIMethod().then((user) => {
+                                            console.log(user);
+                                            user.name = name;
+                                            user.email = email;
+                                            user.location = location;
+                                            user.profile_url = '';
+                                            setImageURL('');
+                                            updateUserAPIMethod(user);
+                                        });
+                                    }
                                 }
                                 setShowProfile(false);
                             }}
