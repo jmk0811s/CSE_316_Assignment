@@ -177,6 +177,7 @@ function App() {
                     setLogin={setLogin}
                     serverCall={serverCall}
                     setServerCall={setServerCall}
+                    setShowProfile={setShowProfile}
                 />
             );
         }
@@ -259,6 +260,7 @@ function App() {
                     setLogin={setLogin}
                     serverCall={serverCall}
                     setServerCall={setServerCall}
+                    setShowProfile={setShowProfile}
                 />
             );
         }

@@ -3,7 +3,7 @@ import {useState}  from "react";
 import Close from "@material-ui/icons/Close";
 import {createUserAPIMethod} from "../api/client";
 
-function Signup({setLogin, serverCall, setServerCall, setShowSignup}) {
+function Signup({setLogin, serverCall, setServerCall, setShowSignup, setShowProfile}) {
     const [name, setName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
@@ -14,12 +14,13 @@ function Signup({setLogin, serverCall, setServerCall, setShowSignup}) {
         e.preventDefault();
         //email validation
         if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email)) {
-            let userInfo = {"name": name, "email": email, "password": password};
-            console.log(userInfo);
+            let userInfo = {"name": name, "email": email, "location": "", "profile_url": "", "password": password};
+            console.log("user info: " + userInfo.name);
             createUserAPIMethod(userInfo).then((status) => {
                 if (status) {
                     setShowError(false);
                     setLogin(true);
+                    setShowProfile(false);
                     setServerCall(!serverCall);
                 }
                 else {

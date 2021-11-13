@@ -3,7 +3,7 @@ import {useState}  from "react";
 import Signup from "./Signup";
 import {loginUserAPIMethod} from "../api/client";
 
-function Login({setLogin, serverCall, setServerCall}) {
+function Login({setLogin, serverCall, setServerCall, setShowProfile}) {
     const [showSignup, setShowSignup] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -26,6 +26,7 @@ function Login({setLogin, serverCall, setServerCall}) {
             if (status) {
                 setShowError(false);
                 setLogin(true);
+                setShowProfile(false);
                 setServerCall(!serverCall);
             }
             else {
@@ -41,6 +42,7 @@ function Login({setLogin, serverCall, setServerCall}) {
                 serverCall={serverCall}
                 setServerCall={setServerCall}
                 setShowSignup={setShowSignup}
+                setShowProfile={setShowProfile}
             /> : null}
             <div className="login-page-wrapper">
                 <form className="login-form" action="" method="POST">

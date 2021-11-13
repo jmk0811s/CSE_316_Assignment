@@ -15,12 +15,14 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
     const defaultImageURL = "default_profile_image.png";
     const [imageSelected, setImageSelected] = useState(false);
     const [imageRemoved, setImageRemoved] = useState(false);
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
 
     useEffect(() => {
         getCurrentUserAPIMethod().then((user) => {
             setName(user.name);
             setEmail(user.email);
             setLocation(user.location);
+            setShowErrorMessage(false);
         })
     }, [showProfile]);
 
@@ -44,7 +46,7 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
             const selectedFile = e.target.files[0];
             console.dir(selectedFile);
             const formData = new FormData();
-            const unsignedUploadPreset = 'euuinjpp'
+            const unsignedUploadPreset = 'nphtjj5p'
             formData.append('file', selectedFile);
             formData.append('upload_preset', unsignedUploadPreset);
             setFormData(formData);
@@ -85,6 +87,7 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
                     <div style={{marginLeft: "30px", marginTop: "0", marginBottom: "10px"}}>
                         {imageSelected ? <p style={{color: "green"}}>Image Selected! Press "Save" to apply</p> : <p> </p>}
                         {imageRemoved ? <p style={{color: "green"}}>Image Removed! Press "Save" to apply</p> : <p> </p>}
+                        {showErrorMessage ? <p style={{color: "red"}}>Invalid email format</p> : <p> </p>}
                     </div>
                     <div className="wrapper2-profile">
                         <b>Name</b>
@@ -122,45 +125,51 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
                             className="save"
                             onClick={(e) => {
                                 e.preventDefault();
-                                if (formData != null) {
-                                    uploadImageToCloudinaryAPIMethod(formData).then((response) => {
-                                        getCurrentUserAPIMethod().then((user) => {
-                                            console.log(user);
-                                            user.name = name;
-                                            user.email = email;
-                                            user.location = location;
-                                            user.profile_url = response.url;
-                                            setImageURL(response.url);
-                                            updateUserAPIMethod(user);
-                                        });
-                                    });
-                                    setFormData(null);
+                                if (!(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email))) {
+                                    setShowErrorMessage(true);
                                 }
                                 else {
-                                    if (defaultImage == false && imageRemoved == false) {
-                                        getCurrentUserAPIMethod().then((user) => {
-                                            console.log(user);
-                                            user.name = name;
-                                            user.email = email;
-                                            user.location = location;
-                                            user.profile_url = user.profile_url;
-                                            setImageURL('');
-                                            updateUserAPIMethod(user);
+                                    setShowErrorMessage(false);
+                                    if (formData != null) {
+                                        uploadImageToCloudinaryAPIMethod(formData).then((response) => {
+                                            getCurrentUserAPIMethod().then((user) => {
+                                                console.log(user);
+                                                user.name = name;
+                                                user.email = email;
+                                                user.location = location;
+                                                user.profile_url = response.url;
+                                                setImageURL(response.url);
+                                                updateUserAPIMethod(user);
+                                            });
                                         });
+                                        setFormData(null);
                                     }
                                     else {
-                                        getCurrentUserAPIMethod().then((user) => {
-                                            console.log(user);
-                                            user.name = name;
-                                            user.email = email;
-                                            user.location = location;
-                                            user.profile_url = '';
-                                            setImageURL('');
-                                            updateUserAPIMethod(user);
-                                        });
+                                        if (defaultImage == false && imageRemoved == false) {
+                                            getCurrentUserAPIMethod().then((user) => {
+                                                console.log(user);
+                                                user.name = name;
+                                                user.email = email;
+                                                user.location = location;
+                                                user.profile_url = user.profile_url;
+                                                setImageURL('');
+                                                updateUserAPIMethod(user);
+                                            });
+                                        }
+                                        else {
+                                            getCurrentUserAPIMethod().then((user) => {
+                                                console.log(user);
+                                                user.name = name;
+                                                user.email = email;
+                                                user.location = location;
+                                                user.profile_url = '';
+                                                setImageURL('');
+                                                updateUserAPIMethod(user);
+                                            });
+                                        }
                                     }
+                                    setShowProfile(false);
                                 }
-                                setShowProfile(false);
                             }}
                         >Save</button>
                         <button className="logout" type="button" onClick={handleLogout}>Logout</button>

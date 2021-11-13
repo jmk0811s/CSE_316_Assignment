@@ -67,6 +67,7 @@ export const getUsersAPIMethod = () => {
 
 //user register @
 export const createUserAPIMethod = (user) => {
+    console.log(user);
     return fetch(`/api/users`, {
         ...defaultHeaders,
         method: 'POST',
@@ -111,7 +112,7 @@ export const deleteUserByIdAPIMethod = (userId) => {
 
 //upload profile image to cloudinary
 export const uploadImageToCloudinaryAPIMethod = (formData) => {
-    const cloudName = 'minkijeon';
+    const cloudName = 'minki-jeon';
     return fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
         method: 'POST',
         body: formData,
