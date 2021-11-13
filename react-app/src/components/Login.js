@@ -1,7 +1,7 @@
 import React from "react";
 import {useState}  from "react";
 import Signup from "./Signup";
-import {createUserAPIMethod, loginUserAPIMethod} from "../api/client";
+import {loginUserAPIMethod} from "../api/client";
 
 function Login({setLogin, serverCall, setServerCall}) {
     const [showSignup, setShowSignup] = useState(false);
@@ -11,7 +11,6 @@ function Login({setLogin, serverCall, setServerCall}) {
 
     const handleChangeEmail = (e) => {
         e.preventDefault();
-        console.log(e.target.value);
         setEmail(e.target.value);
     }
 

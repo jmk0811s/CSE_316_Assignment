@@ -26,6 +26,8 @@ const DeleteIcon = ({handleDeleteNote, activeNoteID}) => {
 function SideBar({notes, handleAddNote, handleDeleteNote, activeNoteID, setActiveNote, setShowProfile, setShowSideBar,
                  searchQuery, setSearchQuery, defaultImage, imageURL}) {
 
+    const defaultImageURL = "default_profile_image.png";
+
     const handleChange = (e) => {
         setSearchQuery(e.target.value);
         let filteredList = notes.filter(note => note.text.includes(e.target.value));
@@ -50,7 +52,7 @@ function SideBar({notes, handleAddNote, handleDeleteNote, activeNoteID, setActiv
                     <button
                         className="profile_pic"
                         onClick={() => setShowProfile(true)}
-                        style={{backgroundImage: `url(${defaultImage ? 'default_profile_image.png' : imageURL})`}}
+                        style={{backgroundImage: `url(${defaultImage ? defaultImageURL : imageURL})`}}
                     ></button>
                     <text className="title">My Notes</text>
                     <DeleteIcon handleDeleteNote={handleDeleteNote} activeNoteID={activeNoteID}/>

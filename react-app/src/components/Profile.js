@@ -12,7 +12,9 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
     const [location, setLocation] = useState('');
     const inputRef = useRef(null);
     const [formData, setFormData] = useState(null);
+    const defaultImageURL = "default_profile_image.png";
     const [imageSelected, setImageSelected] = useState(false);
+    const [imageRemoved, setImageRemoved] = useState(false);
 
     useEffect(() => {
         getCurrentUserAPIMethod().then((user) => {
@@ -29,12 +31,15 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
 
     const removeImage = (e) => {
         e.preventDefault();
-        setDefaultImage(true);
         setFormData(null);
+        setImageSelected(false);
+        setImageRemoved(true);
     }
 
     const handleImageSelected = (e) => {
         console.log("New file selected");
+        setImageSelected(true);
+        setImageRemoved(false);
         if (e.target.files && e.target.files[0]) {
             const selectedFile = e.target.files[0];
             console.dir(selectedFile);
@@ -58,13 +63,13 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
                 <div className="container">
                     <div className="wrapper0">
                         <h1 className="profile-title">Edit Profile</h1>
-                        <Close className="close-icon" onClick={() => setShowProfile(false)}></Close>
+                        <Close className="close-icon" onClick={() => {setShowProfile(false); setImageSelected(true);}}></Close>
                     </div>
                     <div className="wrapper1">
                         <button
                             className="profile_pic_2"
                             onClick={addImage}
-                            style={{backgroundImage: `url(${defaultImage ? 'default_profile_image.png' : imageURL})`}}
+                            style={{backgroundImage: `url(${defaultImage ? defaultImageURL : imageURL})`}}
                         ></button>
                         <input
                             ref={inputRef}
@@ -76,6 +81,10 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
                         />
                         <button className="change-image" onClick={addImage}>Choose New Image</button>
                         <button className="remove-image" onClick={removeImage}>Remove Image</button>
+                    </div>
+                    <div style={{marginLeft: "30px", marginTop: "0", marginBottom: "10px"}}>
+                        {imageSelected ? <p style={{color: "green"}}>Image Selected! Press "Save" to apply</p> : <p> </p>}
+                        {imageRemoved ? <p style={{color: "green"}}>Image Removed! Press "Save" to apply</p> : <p> </p>}
                     </div>
                     <div className="wrapper2-profile">
                         <b>Name</b>
@@ -145,7 +154,7 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
                     </div>
                 </div>
             </form>
-            <div className="profile-background" onClick={() => setShowProfile(false)}></div>
+            <div className="profile-background" onClick={() => {setShowProfile(false); setImageSelected(true);}}></div>
         </div>
     );
 }
