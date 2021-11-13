@@ -36,7 +36,7 @@ function Login({setLogin, serverCall, setServerCall, setShowProfile}) {
     }
 
     return (
-        <div style={{display: "flex", justifyContent: "center"}}>
+        <div className="lswrapper" style={{display: "flex", justifyContent: "center"}}>
             {showSignup ? <Signup
                 setLogin={setLogin}
                 serverCall={serverCall}

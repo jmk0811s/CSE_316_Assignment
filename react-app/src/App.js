@@ -82,10 +82,10 @@ function App() {
      * Note editing
      */
 
-    const addNote = (text) => {
+    const addNote = () => {
         let date = Date.now();
         const newNote = {
-            text: text,
+            text: "",
             lastUpdatedDate: date
         }
 
@@ -229,6 +229,7 @@ function App() {
                             activeNote={getActiveNote()}
                             setShowSideBar={setShowSideBar}
                             saveNoteToServer={saveNoteToServer}
+                            addNote={addNote}
                         />
                         {showProfile ?
                             <Profile
@@ -288,6 +289,7 @@ function App() {
                         activeNote={getActiveNote()}
                         setShowSideBar={setShowSideBar}
                         saveNoteToServer={saveNoteToServer}
+                        addNote={addNote}
                     />
                     {showProfile ?
                         <Profile

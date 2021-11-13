@@ -6,7 +6,7 @@ import Markdown from "./Markdown"
 
 const NoteAddIcon = ({handleAddNote}) => {
     const addNote = () => {
-        handleAddNote("New Note");
+        handleAddNote("");
     }
 
     return (
@@ -20,7 +20,7 @@ const ArrowBackIcon = ({setShowSideBar}) => {
     );
 }
 
-function TextArea({notes, handleAddNote, handleChangeNote, activeNote, setShowSideBar, saveNoteToServer}) {
+function TextArea({notes, handleAddNote, handleChangeNote, activeNote, setShowSideBar, saveNoteToServer, addNote}) {
 
     const handleChange = (e) => {
         if (activeNote === undefined) return;
@@ -39,7 +39,7 @@ function TextArea({notes, handleAddNote, handleChangeNote, activeNote, setShowSi
                     id="note-body"
                     className="note-body"
                     type="text"
-                    placeholder="Type to add a new note."
+                    placeholder="Text Area"
                     value={activeNote === undefined ? "" : activeNote.text}
                     onChange={handleChange}
                 ></textarea>

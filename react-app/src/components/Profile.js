@@ -153,6 +153,7 @@ function Profile({setShowProfile, profile, setProfile, profileUpdated, setProfil
                                                 user.location = location;
                                                 user.profile_url = user.profile_url;
                                                 setImageURL('');
+                                                setDefaultImage(false);
                                                 updateUserAPIMethod(user);
                                             });
                                         }

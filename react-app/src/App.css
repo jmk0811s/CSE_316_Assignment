@@ -76,10 +76,13 @@ body, .App {
 }
 
 .login-form {
+  top: 0;
   margin: auto;
   width: 100%;
-  height: 450px;
   z-index: 1;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
 }
 
 form {
@@ -355,6 +358,7 @@ textarea {
   background-color: #f4f4f4;
   position: fixed;
   justify-content: center;
+  display: flex;
 }
 
 .login-wrapper1 {
@@ -411,16 +415,23 @@ textarea {
  *  sign-up page
  */
 
+.lswrapper {
+  display: flex;
+  justify-content: center;
+  top: 0;
+  padding: 0;
+  margin: 0;
+}
+
 .signup-background {
-  position: fixed;
   width: 100%;
-  height: 100%;
-  overflow: auto;
+  height: 100vh;
   background-color: rgba(71, 78, 93, 0.8);
-  padding-top: 50px;
   z-index: 2;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  top: 0;
 }
 
 .signup-container {
@@ -435,7 +446,7 @@ textarea {
 }
 
 .signup-wrapper1 {
-  top: 120px;
+  top: 40px;
   margin: 0 auto;
   justify-content: center;
   display: flex;
@@ -496,7 +507,7 @@ textarea {
     width: 100%;
   }
 
-  .profile {
+  .profile, .signup-background {
     position: fixed;
     justify-content: center;
     z-index: 1;
@@ -509,6 +520,19 @@ textarea {
     padding-top: 50px;
   }
 
+  .profile-content {
+    position: fixed;
+    top: 0;
+    margin-top: 100px;
+  }
+
+  .signup-wrapper1 {
+    position: fixed;
+    top: 0;
+    margin-top: 100px;
+    width: 100%;
+  }
+
   .signup-background {
     position: fixed;
     justify-content: center;
@@ -518,7 +542,8 @@ textarea {
     height: 100%;
     overflow: auto;
     background-color: #ffffff;
-    padding-top: 50px;
+    padding-top: 0px;
+    top: -100px;
     display: flex;
   }
 
